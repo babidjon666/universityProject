@@ -34,4 +34,4 @@ ______________________________________________________________
 
   Работник страховой компании -> Отправляет электронную копию полиса ОМС/ДМС.
 
-![](https://github.com/babidjon666/universityProject/blob/main/insurance_organisation/photo_2024-10-10_15-02-26.jpg)
+![](https://github.com/babidjon666/universityProject/blob/9da34f551bc69bb0181928bca18b576fa1870a04/insurance_organisation/UseCase_insurance.jpg)
