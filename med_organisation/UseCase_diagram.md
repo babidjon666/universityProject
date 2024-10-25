@@ -48,4 +48,4 @@ ______________________________________________________________
   
 ______________________________________________________________
 
-![][(Cache/UseCase_medicine.jpg)]
+![](https://github.com/babidjon666/universityProject/blob/main/Cache/UseCase_medicine.jpg)
