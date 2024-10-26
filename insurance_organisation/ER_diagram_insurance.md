@@ -1,4 +1,4 @@
-![](https://github.com/babidjon666/universityProject/blob/main/Cache/ER_insurance_final.jpg)
+![](https://github.com/babidjon666/universityProject/blob/main/Cache/ER_insurance_final_final.jpg)
 
 Сущности 
 <ul>
@@ -30,7 +30,6 @@
       <li>Статус</li>
       <li>Дата и время создания</li>
       <li>Дата и время закрытия</li>
-      <li>Администратор</li>
       <li>Сотрудник страховой компании</li>
       <li>РВП</li>
     </ul>
