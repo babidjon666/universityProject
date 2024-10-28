@@ -1,4 +1,4 @@
-![](https://github.com/babidjon666/universityProject/blob/main/Cache/er_strah.jpeg)
+![](https://github.com/babidjon666/universityProject/blob/main/Cache/ER_insurance_final_final_final.jpg)
 
 Сущности 
 <ul>
