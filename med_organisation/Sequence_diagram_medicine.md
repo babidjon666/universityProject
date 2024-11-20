@@ -38,7 +38,7 @@ _______________________________________________________________________
 
 Диаграмма последовательности: Обратиться к списку записей.
 
-![](https://github.com/babidjon666/universityProject/blob/main/Cache/sd_medicine_check_requests.jpg)
+![](https://github.com/babidjon666/universityProject/blob/main/Cache/sd_medicine_check_requests_exam.jpg)
 
 Врач-терапевт получает список записей к нему.
 
@@ -46,7 +46,7 @@ _______________________________________________________________________
 
 Диаграмма последовательности: Cоздать направление на сдачу анализов.
 
-![](https://github.com/babidjon666/universityProject/blob/main/Cache/sd_medicine_make_directs_tests.jpg)
+![](https://github.com/babidjon666/universityProject/blob/main/Cache/sd_medicine_create_directs_tests.jpg)
 
 Врач-терапевт создает направления для сдачи анализов иностранным гражданином.
 
@@ -62,7 +62,7 @@ _______________________________________________________________________
 
 Диаграмма последовательности: Внести результаты анализов в систему.
 
-![](https://github.com/babidjon666/universityProject/blob/main/Cache/sd_medicine_enter_tests.jpg)
+![](https://github.com/babidjon666/universityProject/blob/main/Cache/sd_medicne_enter_tests.jpg)
 
 Лаборант создает объект анализ и вносит его результаты в систему.
 
@@ -78,7 +78,7 @@ _______________________________________________________________________
 
 Диаграмма последовательности: Получение справки.
 
-![](https://github.com/babidjon666/universityProject/blob/main/Cache/sd_medicine_take_certificate.jpg)
+![](https://github.com/babidjon666/universityProject/blob/main/Cache/sd_medicine_take_cerificate.jpg)
 
 Иностранный гражданин в ЛК получает электронную копию справки.
 
