@@ -66,4 +66,5 @@
 7) IRequestRepository - интерфейс для реализации Dependency Injection.
 8) IAuthRepository - интерфейс для реализации Dependency Injection.
 
+ссылка на StarUml диаграмму - https://github.com/babidjon666/universityProject/blob/main/Cache/UML_insurance.mdj
 ![](https://github.com/babidjon666/universityProject/blob/main/Cache/insurance_class.png)
