@@ -65,3 +65,5 @@
 6) IPolicyRepository - интерфейс для реализации Dependency Injection.
 7) IRequestRepository - интерфейс для реализации Dependency Injection.
 8) IAuthRepository - интерфейс для реализации Dependency Injection.
+
+![](https://github.com/babidjon666/universityProject/blob/main/Cache/insurance_class.png)
