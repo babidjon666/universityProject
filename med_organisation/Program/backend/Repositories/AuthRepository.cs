@@ -24,7 +24,9 @@ namespace backend.Repositories
 
         public async Task<UserModel> GetUserFromDataBase(string login, string hashedPassword)
         {
-            var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Login == login && u.Password == hashedPassword);
+            var dbUser = await _context.Users
+                            .Include(u => u.Role)
+                            .FirstOrDefaultAsync(u => u.Login == login && u.Password == hashedPassword);
 
             return dbUser;
         }

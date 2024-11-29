@@ -168,3 +168,8 @@
 /Users/markpolakov/Desktop/universityProject/med_organisation/Program/backend/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Security.Cryptography.ProtectedData.dll
 /Users/markpolakov/Desktop/universityProject/med_organisation/Program/backend/bin/Debug/net8.0/runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll
 /Users/markpolakov/Desktop/universityProject/med_organisation/Program/backend/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Windows.Extensions.dll
+/Users/markpolakov/Desktop/universityProject/med_organisation/Program/backend/bin/Debug/net8.0/backend.staticwebassets.endpoints.json
+/Users/markpolakov/Desktop/universityProject/med_organisation/Program/backend/bin/Debug/net8.0/MySqlConnector.dll
+/Users/markpolakov/Desktop/universityProject/med_organisation/Program/backend/bin/Debug/net8.0/Pomelo.EntityFrameworkCore.MySql.dll
+/Users/markpolakov/Desktop/universityProject/med_organisation/Program/backend/obj/Debug/net8.0/staticwebassets.build.endpoints.json
+/Users/markpolakov/Desktop/universityProject/med_organisation/Program/backend/obj/Debug/net8.0/staticwebassets/msbuild.backend.Microsoft.AspNetCore.StaticWebAssetEndpoints.props

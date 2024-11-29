@@ -35,7 +35,7 @@ namespace backend.Controllers
             try
             {
                 var user = await authService.LoginService(login, password);
-                return Ok($"{user.Role} успешно вошел");
+                return Ok($"{user.Role.RoleName} успешно вошел");
             }
             catch (Exception ex)
             {
