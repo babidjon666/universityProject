@@ -7,33 +7,44 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Указываем порты для HTTP и HTTPS
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(5000);  // Порт для HTTP
-    options.ListenAnyIP(5001, listenOptions => // Порт для HTTPS
-    {
-        listenOptions.UseHttps();  // Используем HTTPS
-    });
-});
+// Добавляем сервися в контейнер
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Подключение к бд
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-// Регистрация сервисов
-builder.Services.AddScoped<IAuthService, AuthService>();
+    options.UseSqlServer(connectionString));
 
 // Регистрация репозиториев
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
+
+// Регистрация сервисов
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+
+// Добавление контроллеров
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
     });
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Добавление Cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", builder =>
+    {
+        builder
+            .WithOrigins("http://localhost:3000") 
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials(); 
+    });
+});
+
 
 var app = builder.Build();
 
@@ -43,7 +54,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection(); // Редирект с HTTP на HTTPS
+app.UseHttpsRedirection();
 app.UseRouting();
+app.UseCors("CorsPolicy");
+
+// Configure endpoints for controllers and hubs
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.Run();
