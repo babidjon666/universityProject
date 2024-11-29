@@ -1,26 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "/Users/markpolakov/Desktop/universityProject/med_organisation/Program/backend/backend.csproj": {}
+    "C:\\Users\\jamaj\\Desktop\\universityProject\\med_organisation\\Program\\backend\\backend.csproj": {}
   },
   "projects": {
-    "/Users/markpolakov/Desktop/universityProject/med_organisation/Program/backend/backend.csproj": {
+    "C:\\Users\\jamaj\\Desktop\\universityProject\\med_organisation\\Program\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/markpolakov/Desktop/universityProject/med_organisation/Program/backend/backend.csproj",
+        "projectUniqueName": "C:\\Users\\jamaj\\Desktop\\universityProject\\med_organisation\\Program\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "/Users/markpolakov/Desktop/universityProject/med_organisation/Program/backend/backend.csproj",
-        "packagesPath": "/Users/markpolakov/.nuget/packages/",
-        "outputPath": "/Users/markpolakov/Desktop/universityProject/med_organisation/Program/backend/obj/",
+        "projectPath": "C:\\Users\\jamaj\\Desktop\\universityProject\\med_organisation\\Program\\backend\\backend.csproj",
+        "packagesPath": "C:\\Users\\jamaj\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jamaj\\Desktop\\universityProject\\med_organisation\\Program\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/markpolakov/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\jamaj\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -37,8 +36,9 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "direct"
-        }
+          "auditMode": "all"
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -62,6 +62,10 @@
               "target": "Package",
               "version": "[9.0.0, )"
             },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
@@ -78,6 +82,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.11, 8.0.11]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[8.0.11, 8.0.11]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.11, 8.0.11]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.11, 8.0.11]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -86,7 +108,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
