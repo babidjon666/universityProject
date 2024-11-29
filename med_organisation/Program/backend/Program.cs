@@ -58,7 +58,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors("CorsPolicy");
 
-// Configure endpoints for controllers and hubs
+// Configure endpoints for controllers 
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();

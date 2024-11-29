@@ -18,11 +18,6 @@ namespace backend.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] UserModel newUser)
         {
-            if (newUser == null)
-            {
-                return BadRequest("Пользователь пустой");
-            }
-
             try
             {
                 await authService.RegisterService(newUser);
@@ -31,6 +26,20 @@ namespace backend.Controllers
             catch (Exception ex)
             {
                 return BadRequest($"Ошибка регистрации: {ex.Message}");
+            }
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(string login, string password)
+        {
+            try
+            {
+                await authService.LoginService(login, password);
+                return Ok("Пользователь успешно вошел");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Ошибка логина: {ex.Message}");
             }
         }
     }

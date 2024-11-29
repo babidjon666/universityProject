@@ -5,6 +5,7 @@ namespace backend.interfaces
     public interface IAuthRepository
     {
         Task<bool> CheckName(string cheackedLogin);
-        Task AddUser(UserModel user);
+        Task AddUserToDataBase(UserModel user);
+        Task<UserModel> GetUserFromDataBase(string login, string hashedPassword);
     }
 }

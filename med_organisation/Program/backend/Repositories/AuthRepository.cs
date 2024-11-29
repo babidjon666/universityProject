@@ -16,10 +16,17 @@ namespace backend.Repositories
             return await _context.Users.AnyAsync(u => u.Login == cheackedLogin);
         }
 
-        public async Task AddUser(UserModel user)
+        public async Task AddUserToDataBase(UserModel user) // добавить пользователя в бд
         {
             _context.Users.Add(user);
             await Save();
+        }
+
+        public async Task<UserModel> GetUserFromDataBase(string login, string hashedPassword)
+        {
+            var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Login == login && u.Password == hashedPassword);
+
+            return dbUser;
         }
     }
 }
