@@ -52,4 +52,3 @@ export const getNationalityName = (nationality) => {
 export const formatDate = (date) => {
         return date ? dayjs(date).format("DD/MM/YYYY") : "Not specified";
 };
-

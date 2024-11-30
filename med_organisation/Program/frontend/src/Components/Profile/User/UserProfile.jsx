@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { getProfile } from "./UserProfileService.js";
-import {
-    Button,
-    DatePicker,
-    Form,
-    Input,
-    message,
-    Select
-} from 'antd';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getProfile } from './UserProfileService.js';
+import { Button, DatePicker, Form, Input, Avatar, Menu, List, Modal } from 'antd';
+import { Patient } from './Patient.jsx';
 
-import { Patient } from "./Patient.jsx"
+const data = [
+    {
+        title: 'Request 1',
+    },
+    {
+        title: 'Request 2',
+    },
+    {
+        title: 'Request 3',
+    },
+    {
+        title: 'Request 4',
+    },
+];
 
 export const UsersProfile = () => {
     const [activeSection, setActiveSection] = useState('personalInfo');
     const [profile, setProfile] = useState(null);
-
     const [passport, setPassport] = useState({
         passportNumber: '',
         issuedBy: '',
@@ -30,12 +35,11 @@ export const UsersProfile = () => {
         iNN: '',
         patentTerritory: '',
         issuedBy: '',
-        nationality: '', 
-        dateOfIssue: null 
+        nationality: '',
+        dateOfIssue: null
     });
-    
-    const [isEditingPassport, setIsEditingPassport] = useState(false);
 
+    const [isEditingPassport, setIsEditingPassport] = useState(false);
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -45,15 +49,15 @@ export const UsersProfile = () => {
         wrapperCol: { xs: { span: 24 }, sm: { span: 14 } },
     };
 
-    useEffect(() => { 
+    useEffect(() => {
         fetchProfile();
     }, [id]);
 
-    const fetchProfile = async () => { // функция для получения профиля
+    const fetchProfile = async () => {
         try {
             const profileData = await getProfile(id);
             setProfile(profileData);
-            
+
             setPatient({
                 documentNumber: profileData.profile.patient.documentNumber,
                 serie: profileData.profile.patient.serie,
@@ -63,47 +67,66 @@ export const UsersProfile = () => {
                 nationality: profileData.profile.patient.nationality,
                 dateOfIssue: profileData.profile.patient.dateOfIssue,
             });
-            
-
         } catch (error) {
-            console.error("Ошибка при получении профиля:", error);
+            console.error('Ошибка при получении профиля:', error);
         }
     };
+
     // Функция для навигации
     const handleSectionChange = (section) => {
         setActiveSection(section);
     };
 
-    // Функция, чтобы выйти и не вернуться назад
+    // Функция для выхода из профиля с подтверждением через Modal
     const handleLogout = () => {
-        navigate(`/login`, { replace: true });
+        Modal.confirm({
+            title: 'Exit',
+            content: 'Are you sure you want to leave the page?',
+            okText: 'Yes',
+            cancelText: 'No',
+            onOk: () => {
+                navigate(`/login`, { replace: true });
+            },
+            onCancel: () => {
+                handleSectionChange("personalInfo");
+            },
+        });
     };
 
     // Функция для отмены редактирования паспорта
     const handleCancelEditingPassport = () => {
-        setIsEditingPassport(false); 
+        setIsEditingPassport(false);
     };
 
     return (
         <div className="dashboard-container">
-            <h2>My Profile</h2>
-            <nav className="dashboard-nav">
-                <button className="nav-button" onClick={() => handleSectionChange('personalInfo')}>
-                    Personal Info
-                </button>
-                <button className="nav-button" onClick={() => handleSectionChange('myTests')}>
-                    My Tests
-                </button>
-                <button className="nav-button" onClick={() => handleSectionChange('myReferrals')}>
-                    My Referrals
-                </button>
-                <button className="nav-button" onClick={() => handleSectionChange('myRequests')}>
-                    My Requests
-                </button>
-                <button className="nav-button logout-button" onClick={handleLogout}>
+            <div className="profile-header">
+                <Avatar
+                    src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${id}`}
+                    size={64}
+                    style={{
+                        marginRight: '16px',
+                        border: '2px solid #f0f0f0',
+                        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                    }}
+                />
+                <h2>My Profile</h2>
+            </div>
+
+            <Menu
+                onClick={({ key }) => handleSectionChange(key)}
+                selectedKeys={[activeSection]}
+                mode="horizontal"
+                style={{ marginBottom: '20px' }}
+            >
+                <Menu.Item key="personalInfo">Personal Info</Menu.Item>
+                <Menu.Item key="myTests">My Tests</Menu.Item>
+                <Menu.Item key="myReferrals">My Referrals</Menu.Item>
+                <Menu.Item key="myRequests">My Requests</Menu.Item>
+                <Menu.Item key="logout" onClick={handleLogout}>
                     Logout
-                </button>
-            </nav>
+                </Menu.Item>
+            </Menu>
 
             <div className="dashboard-content">
                 {activeSection === 'personalInfo' && profile && (
@@ -211,8 +234,22 @@ export const UsersProfile = () => {
 
                 {activeSection === 'myRequests' && (
                     <div className="section">
-                        <h3>My Requests</h3>
-                        <p>No requests have been submitted.</p>
+                        <List
+                            pagination={{
+                                position: 'bottom',
+                                align: 'center',
+                            }}
+                            dataSource={data}
+                            renderItem={(item, index) => (
+                                <List.Item>
+                                    <List.Item.Meta
+                                        avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} />}
+                                        title={<a href="https://ant.design">{item.title}</a>}
+                                        description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                                    />
+                                </List.Item>
+                            )}
+                        />
                     </div>
                 )}
             </div>
