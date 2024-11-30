@@ -138,7 +138,7 @@ export const Auth = () => {
                             <input
                                 type="text"
                                 id="auth-login"
-                                placeholder="Enter your password"
+                                placeholder="Enter your login"
                                 value={login}
                                 onChange={(e) => setLogin(e.target.value)}
                                 required
