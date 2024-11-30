@@ -96,6 +96,34 @@ body {
     color: #555;
     margin: 10px 0;
 }
+.personal-info-header {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #ddd; /* Линия под заголовком */
+    padding-bottom: 5px;
+}
+.personal-info-content p {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    display: flex;
+    align-items: center; /* Выравниваем текст и иконки */
+}
+.personal-info-label {
+    font-weight: 600;
+    color: #000; /* Акцентируем метки */
+    margin-right: 8px; /* Отступ между меткой и значением */
+}
+/* Добавим иконки через псевдоэлементы */
+.personal-info-content p::before {
+    content: '•'; /* Замените на нужный символ или используйте иконку */
+    font-size: 1.2rem;
+    color: #007bff; /* Цвет иконки или символа */
+    margin-right: 8px;
+}
 
 /* Стили для кнопки редактирования */
 button[type="button"] {
@@ -107,7 +135,6 @@ button[type="button"] {
     cursor: pointer;
     font-size: 16px;
 }
-
 button[type="button"]:hover {
     background-color: #0056b3;
 }
@@ -132,23 +159,9 @@ button[type="button"]:hover {
     margin-top: 20px;
 }
 
-/* Стили для кнопки Cancel */
-button[type="button"]:first-of-type {
-    background-color: #dc3545;
-}
 
-button[type="button"]:first-of-type:hover {
-    background-color: #c82333;
-}
 
-/* Стили для кнопки Cancel */
-button[type="button"]:last-of-type {
-    background-color: #007bff;
-}
 
-button[type="button"]:last-of-type:hover {
-    background-color: #0056b3;
-}
 
 /* Стили для формы в режиме редактирования */
 input[type="text"],
@@ -188,17 +201,7 @@ button {
     margin-right: 10px;
 }
 
-button:hover {
-    background-color: #218838;
-}
 
-button[type="button"] {
-    background-color: #dc3545;
-}
-
-button[type="button"]:hover {
-    background-color: #c82333;
-}
 
 /* Эффект наведения на секцию */
 .section-container:hover {
