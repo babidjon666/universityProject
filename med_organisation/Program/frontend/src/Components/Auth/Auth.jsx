@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { loginUser, registerUser } from "./Auth";
+import { loginUser, registerUser, validateLogin, validatePassword } from "./Auth";
 import { useNavigate } from "react-router-dom";
 import { message } from 'antd';
 import "./authstyles.css";
@@ -24,53 +24,6 @@ export const Auth = () => {
     const handleShowLogin = (e) => {
         e.preventDefault();
         setShowLogin(true);
-    };
-
-    const validateLogin = (login) => {
-        // Проверка: логин должен быть не менее 6 символов
-        if (login.length < 6) {
-            message.warning("Логин должен быть не менее 6 символов");
-            return false;
-        }
-    
-        // Регулярное выражение: только латинские буквы и цифры
-        const loginRegex = /^[a-zA-Z0-9]+$/;
-        if (!loginRegex.test(login)) {
-            message.warning("Логин должен содержать только латинские буквы и цифры без спецсимволов");
-            return false;
-        }
-    
-        // Проверка на кириллицу (опционально, можно включить в предыдущее правило)
-        const hasCyrillic = /[а-яА-ЯЁё]/;
-        if (hasCyrillic.test(login)) {
-            message.warning("Логин не должен содержать кириллические символы");
-            return false;
-        }
-    
-        return true;
-    };
-
-    const validatePassword = (password) => {
-        // Проверка: пароль должен быть не менее 6 символов
-        if (password.length < 6) {
-            message.warning("Пароль должен быть не менее 6 символов");
-            return false;
-        }
-    
-        // Проверка на пробелы
-        if (/\s/.test(password)) {
-            message.warning("Пароль не должен содержать пробелы");
-            return false;
-        }
-    
-        // Регулярное выражение: хотя бы одна буква, одна цифра и один спецсимвол
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
-        if (!passwordRegex.test(password)) {
-            message.warning("Пароль должен содержать хотя бы одну букву, одну цифру и один специальный символ");
-            return false;
-        }
-    
-        return true;
     };
 
     const handleLogin = async (e) => {
