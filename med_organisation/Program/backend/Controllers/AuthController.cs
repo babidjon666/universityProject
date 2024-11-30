@@ -1,5 +1,6 @@
 using backend.interfaces;
 using backend.models;
+using backend.models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -30,11 +31,11 @@ namespace backend.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(string login, string password)
+        public async Task<IActionResult> Login([FromBody]LoginDTO loginRequest)
         {
             try
             {
-                var user = await authService.LoginService(login, password);
+                var user = await authService.LoginService(loginRequest.Login, loginRequest.Password);
                 return Ok($"{user.Role.RoleName} успешно вошел");
             }
             catch (Exception ex)

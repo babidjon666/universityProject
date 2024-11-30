@@ -5261,24 +5261,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\jamaj\\.nuget\\packages\\": {}
+    "/Users/markpolakov/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jamaj\\Desktop\\universityProject\\med_organisation\\Program\\backend\\backend.csproj",
+      "projectUniqueName": "/Users/markpolakov/Desktop/universityProject/med_organisation/Program/backend/backend.csproj",
       "projectName": "backend",
-      "projectPath": "C:\\Users\\jamaj\\Desktop\\universityProject\\med_organisation\\Program\\backend\\backend.csproj",
-      "packagesPath": "C:\\Users\\jamaj\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jamaj\\Desktop\\universityProject\\med_organisation\\Program\\backend\\obj\\",
+      "projectPath": "/Users/markpolakov/Desktop/universityProject/med_organisation/Program/backend/backend.csproj",
+      "packagesPath": "/Users/markpolakov/.nuget/packages/",
+      "outputPath": "/Users/markpolakov/Desktop/universityProject/med_organisation/Program/backend/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\jamaj\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/markpolakov/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -5347,15 +5348,11 @@
             "version": "[8.0.11, 8.0.11]"
           },
           {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "name": "Microsoft.NETCore.App.Host.osx-arm64",
             "version": "[8.0.11, 8.0.11]"
           },
           {
             "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.11, 8.0.11]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
             "version": "[8.0.11, 8.0.11]"
           }
         ],
@@ -5367,7 +5364,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
@@ -5376,7 +5373,7 @@
       "code": "NU1608",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Detected package version outside of dependency constraint: Pomelo.EntityFrameworkCore.MySql 8.0.2 requires Microsoft.EntityFrameworkCore.Relational (>= 8.0.2 && <= 8.0.999) but version Microsoft.EntityFrameworkCore.Relational 9.0.0 was resolved.",
+      "message": "Версия обнаруженного пакета нарушает ограничение зависимости: Pomelo.EntityFrameworkCore.MySql 8.0.2 требуется Microsoft.EntityFrameworkCore.Relational (>= 8.0.2 && <= 8.0.999), но в результате разрешения получена версия Microsoft.EntityFrameworkCore.Relational 9.0.0.",
       "libraryId": "Microsoft.EntityFrameworkCore.Relational",
       "targetGraphs": [
         "net8.0"

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import "./UsersProfileStyles.css";
 
-const Dashboard = () => {
+export const UsersProfile = () => {
     const [activeSection, setActiveSection] = useState('personalInfo');
 
     const handleSectionChange = (section) => {
@@ -65,5 +64,3 @@ const Dashboard = () => {
         </div>
     );
 };
-
-export default Dashboard;
