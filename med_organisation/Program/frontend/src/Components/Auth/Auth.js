@@ -33,3 +33,18 @@ export const loginUser = async (login, password) => {
         throw error; // Пробрасываем ошибку, чтобы обработать её в компоненте
     }
 };
+
+export const registerUser = async (userName, surname, login, password) => {
+    try {
+        const response = await axios.post("http://localhost:5288/api/Auth/Register", {
+            name: userName,
+            surname: surname,
+            login: login,
+            password: password,
+        });
+        return response.config.data; // Возвращаем данные ответа сервера
+    }   catch (error) {
+        console.error("Login error:", error);
+        throw error; // Пробрасываем ошибку, чтобы обработать её в компоненте
+    }
+};

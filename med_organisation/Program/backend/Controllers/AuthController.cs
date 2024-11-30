@@ -17,8 +17,18 @@ namespace backend.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody] UserModel newUser)
+        public async Task<IActionResult> Register([FromBody] RegisterDTO registerRequest)
         {
+            var newUser = new UserModel {
+                Name = registerRequest.Name,
+                Surname = registerRequest.Surname,
+                Login = registerRequest.Login,
+                Password = registerRequest.Password,
+                Role = new BaseRoleModel {
+                    RoleName = enums.RoleName.Client
+                }
+            };
+
             try
             {
                 await authService.RegisterService(newUser);
