@@ -34,8 +34,12 @@ export const Auth = () => {
             const result = await loginUser(login, password);
             console.log("Login successful:", result);
 
-            // Перенаправление на страницу профиля
-            navigate("/profile");
+            const [id, role] = result.split(",");
+            if (role === "Doctor") {
+                navigate(`/doctorProfile/${id}`); 
+            } else {
+                navigate(`/userProfile/${id}`); 
+            };
             message.success("Успешный вход!");
         } catch (error) {
             message.success("Неправильный логин или пароль!");
@@ -182,4 +186,7 @@ export const Auth = () => {
             </div>
         </div>
     );
+    
+                        
+   
 };

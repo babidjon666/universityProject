@@ -1,3 +1,5 @@
+using backend.enums;
+
 namespace backend.models
 {
     public class UserModel // класс пользователя
@@ -7,6 +9,7 @@ namespace backend.models
         public string Surname { get; set; } = string.Empty;
         public string Login { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
-        public required BaseRoleModel Role { get; set; }
+        public RoleName RoleName { get; set; } 
+        public Profile? Profile { get; set; } 
     }
 }

@@ -1,5 +1,7 @@
 using backend.interfaces;
 using backend.models;
+using backend.models.Atributes;
+using backend.models.Attributes;
 using backend.models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,8 +26,13 @@ namespace backend.Controllers
                 Surname = registerRequest.Surname,
                 Login = registerRequest.Login,
                 Password = registerRequest.Password,
-                Role = new BaseRoleModel {
-                    RoleName = enums.RoleName.Client
+                RoleName = enums.RoleName.Client,
+                Profile = new Profile{
+                    Passport = new Passport(),  // Создание пустого паспорта
+                    Patient = new Patient(),    // Создание пустого патента
+                    PhoneNumber = string.Empty, // Инициализация номера телефона, если необходимо
+                    MedCard = new MedCard(),   // Создание пустой медкарты, если она есть
+                    Requests = new List<Request>() // Инициализация списка запросов
                 }
             };
 
@@ -46,7 +53,7 @@ namespace backend.Controllers
             try
             {
                 var user = await authService.LoginService(loginRequest.Login, loginRequest.Password);
-                return Ok($"{user.Role.RoleName} успешно вошел");
+                return Ok($"{user.Id},{user.RoleName}");
             }
             catch (Exception ex)
             {

@@ -28,7 +28,7 @@ export const loginUser = async (login, password) => {
             login: login,
             password: password,
         });
-        return response.config.data; // Возвращаем данные ответа сервера
+        return response.data; // Возвращаем данные ответа сервера
     } catch (error) {
         console.error("Login error:", error);
         throw error; // Пробрасываем ошибку, чтобы обработать её в компоненте

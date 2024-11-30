@@ -1,6 +1,7 @@
 using backend.Data;
 using backend.interfaces;
 using backend.models;
+using backend.models.Atributes;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repositories
@@ -25,7 +26,6 @@ namespace backend.Repositories
         public async Task<UserModel> GetUserFromDataBase(string login, string hashedPassword)
         {
             var dbUser = await _context.Users
-                            .Include(u => u.Role)
                             .FirstOrDefaultAsync(u => u.Login == login && u.Password == hashedPassword);
 
             return dbUser;
