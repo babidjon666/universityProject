@@ -10,6 +10,7 @@ namespace backend.models
         public string Login { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public RoleName RoleName { get; set; } 
-        public Profile? Profile { get; set; } 
+        public Profile? Profile { get; set; }
+        public List<Request> Requests { get; set; } = new List<Request>();
     }
 }

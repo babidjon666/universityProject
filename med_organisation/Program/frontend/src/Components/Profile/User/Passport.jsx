@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { Form, Input, DatePicker, Button, Select, message } from 'antd';
+import { Form, Input, DatePicker, Button, Select, message, Modal } from 'antd';
 import dayjs from 'dayjs';
-import { CSSTransition } from 'react-transition-group';
-import './Animations.css'; 
 import { editPassport, getNationalityName, formatDate } from './UserProfileService.js';
 
 export const Passport = ({ passport, profile, fetchProfile }) => {
@@ -11,11 +9,6 @@ export const Passport = ({ passport, profile, fetchProfile }) => {
 
     const handleCancelEditingPassport = () => {
         setIsEditingPassport(false);
-    };
-
-    const formItemLayout = {
-        labelCol: { xs: { span: 24 }, sm: { span: 6 } },
-        wrapperCol: { xs: { span: 24 }, sm: { span: 14 } },
     };
 
     const handleSubmit = async (values) => {
@@ -27,12 +20,12 @@ export const Passport = ({ passport, profile, fetchProfile }) => {
                 sex: values.sex === 'true' ? true : false,
                 placeOfBirthday: values.placeOfBirthday,
                 codeOfState: values.codeOfState,
-                nationality: parseInt(values.nationality, 10), 
+                nationality: parseInt(values.nationality, 10),
                 issuingAuthority: values.issuingAuthority,
                 placeOfResidence: values.placeOfResidence,
-                dateOfBirth: values.dateOfBirth.format('YYYY-MM-DD'), 
-                dateOfIssue: values.dateOfIssue.format('YYYY-MM-DD'), 
-                dateOfExpiry: values.dateOfExpiry.format('YYYY-MM-DD'), 
+                dateOfBirth: values.dateOfBirth.format('YYYY-MM-DD'),
+                dateOfIssue: values.dateOfIssue.format('YYYY-MM-DD'),
+                dateOfExpiry: values.dateOfExpiry.format('YYYY-MM-DD'),
             };
 
             await editPassport(
@@ -62,15 +55,15 @@ export const Passport = ({ passport, profile, fetchProfile }) => {
     return (
         <div className="passport-info">
             <h4 className="personal-info-header">Passport</h4>
-            <CSSTransition
-                in={isEditingPassport}
-                timeout={300}
-                classNames="fade"
-                unmountOnExit
+            
+            <Modal
+                title="Edit Passport Info"
+                visible={isEditingPassport}
+                onCancel={handleCancelEditingPassport}
+                footer={null}
             >
                 <Form
                     className="personal-info-content"
-                    {...formItemLayout}
                     form={form}
                     style={{ maxWidth: 600, textAlign: 'left' }}
                     initialValues={{
@@ -111,7 +104,7 @@ export const Passport = ({ passport, profile, fetchProfile }) => {
                     <Form.Item
                         label="Sex"
                         name="sex"
-                        rules={[{ required: true, message: 'Select nationality' }]}
+                        rules={[{ required: true, message: 'Select sex' }]}
                     >
                         <Select style={{ width: '250px' }}>
                             <Select.Option value="false">Female</Select.Option>
@@ -119,11 +112,11 @@ export const Passport = ({ passport, profile, fetchProfile }) => {
                         </Select>
                     </Form.Item>
                     <Form.Item
-                        label="Place of Birthday"
+                        label="Place of Birth"
                         name="placeOfBirthday"
                         rules={[
-                            { required: true, message: 'Enter place of birthday' },
-                            { pattern: /^[A-Za-z\s]+$/, message: 'place of birthday must contain only letters and spaces' },
+                            { required: true, message: 'Enter place of birth' },
+                            { pattern: /^[A-Za-z\s]+$/, message: 'Place of birth must contain only letters and spaces' },
                         ]}
                     >
                         <Input style={{ width: '250px' }} />
@@ -133,7 +126,7 @@ export const Passport = ({ passport, profile, fetchProfile }) => {
                         name="codeOfState"
                         rules={[
                             { required: true, message: 'Enter code of state' },
-                            { pattern: /^\d{4}$/, message: 'code of state must be exactly 4 digits' },
+                            { pattern: /^\d{4}$/, message: 'Code of state must be exactly 4 digits' },
                         ]}
                     >
                         <Input style={{ width: '250px' }} />
@@ -143,17 +136,17 @@ export const Passport = ({ passport, profile, fetchProfile }) => {
                         name="placeOfResidence"
                         rules={[
                             { required: true, message: 'Enter place of residence' },
-                            { pattern: /^[A-Za-z\s]+$/, message: 'place of residence must contain only letters and spaces' },
+                            { pattern: /^[A-Za-z\s]+$/, message: 'Place of residence must contain only letters and spaces' },
                         ]}
                     >
                         <Input style={{ width: '250px' }} />
                     </Form.Item>
                     <Form.Item
-                        label="IssuingAuthority"
+                        label="Issuing Authority"
                         name="issuingAuthority"
                         rules={[
                             { required: true, message: 'Enter issuing authority' },
-                            { pattern: /^[A-Za-z\s]+$/, message: 'Issued authority by must contain only letters and spaces' },
+                            { pattern: /^[A-Za-z\s]+$/, message: 'Issuing authority must contain only letters and spaces' },
                         ]}
                     >
                         <Input style={{ width: '250px' }} />
@@ -177,7 +170,7 @@ export const Passport = ({ passport, profile, fetchProfile }) => {
                     </Form.Item>
 
                     <Form.Item
-                        label="DateOfIssue"
+                        label="Date of Issue"
                         name="dateOfIssue"
                         rules={[{ required: true, message: 'Enter date of issue' }]}
                     >
@@ -185,7 +178,7 @@ export const Passport = ({ passport, profile, fetchProfile }) => {
                     </Form.Item>
                     
                     <Form.Item
-                        label="DateOfBirth"
+                        label="Date of Birth"
                         name="dateOfBirth"
                         rules={[{ required: true, message: 'Enter date of birth' }]}
                     >
@@ -193,7 +186,7 @@ export const Passport = ({ passport, profile, fetchProfile }) => {
                     </Form.Item>
                     
                     <Form.Item
-                        label="DateOfExpiry"
+                        label="Date of Expiry"
                         name="dateOfExpiry"
                         rules={[{ required: true, message: 'Enter date of expiry' }]}
                     >
@@ -209,7 +202,7 @@ export const Passport = ({ passport, profile, fetchProfile }) => {
                         </Button>
                     </Form.Item>
                 </Form>
-            </CSSTransition>
+            </Modal>
 
             {!isEditingPassport && (
                 <div>
@@ -217,18 +210,18 @@ export const Passport = ({ passport, profile, fetchProfile }) => {
                         <p><span className="personal-info-label">Document Number:</span> {passport.documentNumber}</p>
                         <p><span className="personal-info-label">Serie:</span> {passport.serie}</p>
                         <p><span className="personal-info-label">Sex:</span> {passport.sex === false ? 'Female' : 'Male'}</p>
-                        <p><span className="personal-info-label">PlaceOfBirthday:</span> {passport.placeOfBirthday}</p>
-                        <p><span className="personal-info-label">CodeOfState:</span> {passport.codeOfState}</p>
-                        <p><span className="personal-info-label">PlaceOfResidence:</span> {passport.placeOfResidence}</p>
-                        <p><span className="personal-info-label">IssuingAuthority:</span> {passport.issuingAuthority}</p>
+                        <p><span className="personal-info-label">Place of Birth:</span> {passport.placeOfBirthday}</p>
+                        <p><span className="personal-info-label">Code of State:</span> {passport.codeOfState}</p>
+                        <p><span className="personal-info-label">Place of Residence:</span> {passport.placeOfResidence}</p>
+                        <p><span className="personal-info-label">Issuing Authority:</span> {passport.issuingAuthority}</p>
                         <p><span className="personal-info-label">Nationality:</span> {getNationalityName(passport.nationality)}</p>
-                        <p><span className="personal-info-label">Date Of Issue:</span> {formatDate(passport.dateOfIssue)}</p>
-                        <p><span className="personal-info-label">Date Of Birth:</span> {formatDate(passport.dateOfBirth)}</p>
-                        <p><span className="personal-info-label">DateOfExpiry:</span> {formatDate(passport.dateOfExpiry)}</p>
+                        <p><span className="personal-info-label">Date of Issue:</span> {formatDate(passport.dateOfIssue)}</p>
+                        <p><span className="personal-info-label">Date of Birth:</span> {formatDate(passport.dateOfBirth)}</p>
+                        <p><span className="personal-info-label">Date of Expiry:</span> {formatDate(passport.dateOfExpiry)}</p>
                     </div>
-                    <button type="button" onClick={() => setIsEditingPassport(true)}>
+                    <Button type="primary" onClick={() => setIsEditingPassport(true)}>
                         Edit Passport Info
-                    </button>
+                    </Button>
                 </div>
             )}
         </div>

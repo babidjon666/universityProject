@@ -32,7 +32,6 @@ namespace backend.Controllers
                     Patient = new Patient(),    // Создание пустого патента
                     PhoneNumber = string.Empty, // Инициализация номера телефона, если необходимо
                     MedCard = new MedCard(),   // Создание пустой медкарты, если она есть
-                    Requests = new List<Request>() // Инициализация списка запросов
                 }
             };
 

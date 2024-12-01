@@ -12,7 +12,7 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241130162059_InitialCreate")]
+    [Migration("20241201171701_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -149,18 +149,17 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProfileId")
-                        .HasColumnType("int");
-
                     b.Property<int>("RequestStatus")
                         .HasColumnType("int");
+
+                    b.Property<string>("Time")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProfileId");
 
                     b.HasIndex("UserId");
 
@@ -237,13 +236,8 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.models.Request", b =>
                 {
-                    b.HasOne("backend.models.Profile", null)
-                        .WithMany("Requests")
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("backend.models.UserModel", "User")
-                        .WithMany()
+                        .WithMany("Requests")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -253,21 +247,18 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.models.Profile", b =>
                 {
-                    b.Navigation("MedCard")
-                        .IsRequired();
+                    b.Navigation("MedCard");
 
-                    b.Navigation("Passport")
-                        .IsRequired();
+                    b.Navigation("Passport");
 
-                    b.Navigation("Patient")
-                        .IsRequired();
-
-                    b.Navigation("Requests");
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("backend.models.UserModel", b =>
                 {
                     b.Navigation("Profile");
+
+                    b.Navigation("Requests");
                 });
 #pragma warning restore 612, 618
         }

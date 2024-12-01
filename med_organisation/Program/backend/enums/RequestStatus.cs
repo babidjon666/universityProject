@@ -2,7 +2,8 @@ namespace backend.enums
 {
     public enum RequestStatus
     {
+        InProcess,
         Ready,
-        InProcess
+        Canceled
     }
 }

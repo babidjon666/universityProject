@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using backend.enums;
 using backend.models.Atributes;
 using backend.models.Attributes;
@@ -11,6 +12,5 @@ namespace backend.models
         public Passport? Passport { get; set; } 
         public string PhoneNumber { get; set; } = string.Empty;
         public MedCard? MedCard { get; set; }
-        public List<Request>? Requests { get; set; }
     }
 }

@@ -77,3 +77,31 @@ export const getNationalityName = (nationality) => {
 export const formatDate = (date) => {
         return date ? dayjs(date).format("DD/MM/YYYY") : "Not specified";
 };
+
+// функция для получения заявок
+export const getRequests = async (userId) => {
+    try {
+        const response = await axios.get(`http://localhost:5288/api/Request/GetUsersRequest?userId=${userId}`);
+        return response; 
+    } catch (error) {
+        console.error("Login error:", error);
+        throw error; 
+    }
+};
+
+// функция для редактирования патента
+export const createRequest = async (userId, descriptionOfGoal, date, time) => {
+    try {
+        const response = await axios.post("http://localhost:5288/api/Request/CreateRequest", {
+            userId: userId,
+            descriptionOfGoal: descriptionOfGoal,
+            date: date,
+            time: time,
+            requestStatus: 0
+        });
+        return response.data; 
+    } catch (error) {
+        console.error("Patient error:", error);
+        throw error; 
+    }
+};

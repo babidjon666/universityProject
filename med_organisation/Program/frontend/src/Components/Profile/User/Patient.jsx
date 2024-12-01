@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
-import { Form, Input, DatePicker, Button, Select, message } from 'antd';
+import { Form, Input, DatePicker, Button, Select, message, Modal } from 'antd';
 import dayjs from 'dayjs';
-import { CSSTransition } from 'react-transition-group';
-import './Animations.css'; 
 import { editPatient, getNationalityName, formatDate } from './UserProfileService.js';
 
 export const Patient = ({ patient, profile, fetchProfile }) => {
     const [isEditingPatient, setIsEditingPatient] = useState(false);
     const [form] = Form.useForm();
 
+    // Функция для начала редактирования
+    const handleStartEditing = () => {
+        setIsEditingPatient(true);
+    };
+
+    // Функция для отмены редактирования
     const handleCancelEditingPatient = () => {
         setIsEditingPatient(false);
     };
 
-    const formItemLayout = {
-        labelCol: { xs: { span: 24 }, sm: { span: 6 } },
-        wrapperCol: { xs: { span: 24 }, sm: { span: 14 } },
-    };
-
+    // Функция для отправки формы
     const handleSubmit = async (values) => {
         try {
             const payload = {
@@ -27,8 +27,8 @@ export const Patient = ({ patient, profile, fetchProfile }) => {
                 iNN: values.iNN,
                 patentTerritory: values.patentTerritory,
                 issuedBy: values.issuedBy,
-                nationality: parseInt(values.nationality, 10), 
-                dateOfIssue: values.dateOfIssue.format('YYYY-MM-DD'), 
+                nationality: parseInt(values.nationality, 10),
+                dateOfIssue: values.dateOfIssue.format('YYYY-MM-DD'),
             };
 
             await editPatient(
@@ -54,16 +54,19 @@ export const Patient = ({ patient, profile, fetchProfile }) => {
     return (
         <div className="passport-info">
             <h4 className="personal-info-header">Patient</h4>
-            <CSSTransition
-                in={isEditingPatient}
-                timeout={300}
-                classNames="fade"
-                unmountOnExit
+
+            {/* Если редактирование включено, показываем модальное окно */}
+            <Modal
+                title="Edit Patient Info"
+                visible={isEditingPatient}
+                onCancel={handleCancelEditingPatient}
+                footer={null} // Отключаем стандартные кнопки
+                centered
+                maskClosable={true}
             >
                 <Form
-                    className="personal-info-content"
-                    {...formItemLayout}
                     form={form}
+                    onFinish={handleSubmit}
                     style={{ maxWidth: 600, textAlign: 'left' }}
                     initialValues={{
                         documentNumber: patient.documentNumber,
@@ -74,7 +77,6 @@ export const Patient = ({ patient, profile, fetchProfile }) => {
                         nationality: `${patient.nationality}`,
                         dateOfIssue: patient.dateOfIssue ? dayjs(patient.dateOfIssue) : null,
                     }}
-                    onFinish={handleSubmit}
                 >
                     <Form.Item
                         label="Number"
@@ -151,7 +153,7 @@ export const Patient = ({ patient, profile, fetchProfile }) => {
                         <DatePicker style={{ width: '250px' }} />
                     </Form.Item>
 
-                    <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
+                    <Form.Item>
                         <Button type="primary" htmlType="submit" style={{ marginRight: 10 }}>
                             Save
                         </Button>
@@ -160,8 +162,9 @@ export const Patient = ({ patient, profile, fetchProfile }) => {
                         </Button>
                     </Form.Item>
                 </Form>
-            </CSSTransition>
+            </Modal>
 
+            {/* Если не редактируем, показываем информацию пациента */}
             {!isEditingPatient && (
                 <div>
                     <div className="personal-info-content">
@@ -173,7 +176,7 @@ export const Patient = ({ patient, profile, fetchProfile }) => {
                         <p><span className="personal-info-label">Nationality:</span> {getNationalityName(patient.nationality)}</p>
                         <p><span className="personal-info-label">Date Of Issue:</span> {formatDate(patient.dateOfIssue)}</p>
                     </div>
-                    <button type="button" onClick={() => setIsEditingPatient(true)}>
+                    <button type="button" onClick={handleStartEditing}>
                         Edit Patient Info
                     </button>
                 </div>

@@ -18,41 +18,37 @@ namespace backend.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Настройка связи между UserModel и Profile (1:1)
+            // Настройка связи между UserModel и Request (1:N)
+            modelBuilder.Entity<Request>()
+                .HasOne(r => r.User)       // Связь Request -> UserModel
+                .WithMany(u => u.Requests) // Обратная связь UserModel -> Requests
+                .HasForeignKey(r => r.UserId) // Внешний ключ - поле UserId
+                .OnDelete(DeleteBehavior.Cascade); // При удалении пользователя - удалять его запросы
+
+
             modelBuilder.Entity<UserModel>()
                 .HasOne(u => u.Profile)
                 .WithOne()
-                .HasForeignKey<Profile>(p => p.Id) // Profile.Id будет использоваться как внешний ключ
-                .OnDelete(DeleteBehavior.Cascade); // Каскадное удаление профиля при удалении пользователя
+                .HasForeignKey<Profile>(p => p.Id)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Настройка связи Profile -> Requests (1:M)
-            modelBuilder.Entity<Profile>()
-                .HasMany(p => p.Requests)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Restrict); // Удаление Profile не удаляет Requests
-
-            // Настройка связи Profile -> Passport (1:1)
             modelBuilder.Entity<Profile>()
                 .HasOne(p => p.Passport)
                 .WithOne()
-                .HasForeignKey<Passport>(ps => ps.Id) // Passport.Id будет внешний ключ
+                .HasForeignKey<Passport>(ps => ps.Id)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Настройка связи Profile -> Patient (1:1)
             modelBuilder.Entity<Profile>()
                 .HasOne(p => p.Patient)
                 .WithOne()
-                .HasForeignKey<Patient>(pa => pa.Id) // Patient.Id как внешний ключ
+                .HasForeignKey<Patient>(pa => pa.Id)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Настройка связи Profile -> MedCard (1:1)
             modelBuilder.Entity<Profile>()
                 .HasOne(p => p.MedCard)
                 .WithOne()
-                .HasForeignKey<MedCard>(mc => mc.Id) // MedCard.Id как внешний ключ
+                .HasForeignKey<MedCard>(mc => mc.Id)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            // Дополнительные настройки
             base.OnModelCreating(modelBuilder);
         }
     }

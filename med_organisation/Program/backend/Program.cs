@@ -20,10 +20,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Регистрация репозиториев
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IRequestRepository, RequestRepository>();
 
 // Регистрация сервисов
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IRequestService, RequestService>();
 
 // Добавление контроллеров
 builder.Services.AddControllers()
