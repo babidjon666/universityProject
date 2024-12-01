@@ -8,5 +8,7 @@ namespace backend.interfaces
     {
         Task CreateRequestInDataBase(int userId, Request request);
         Task<IEnumerable<Request>> GetUsersRequest(int userId);
+        Task<IEnumerable<Request>> GetAllWaitingRequests();
+        Task SetDoctorRepository(int doctorId, int requestId);
     }
 }

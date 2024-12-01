@@ -1,5 +1,6 @@
 using backend.interfaces;
 using backend.models;
+using backend.models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -55,13 +56,38 @@ namespace backend.Controllers
             }
             catch (ArgumentException ex)
             {
-                // Если requestService выбросил исключение из-за некорректных данных
                 return BadRequest($"Некорректный параметр: {ex.Message}");
             }
             catch (Exception ex)
             {
-                // Логгирование исключения, если это возможно
-                // _logger.LogError(ex, "Ошибка при получении запросов пользователя.");
+                return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetAllWaitingRequests")]
+        public async Task<ActionResult<IEnumerable<Request>>> GetAllWaitingRequests()
+        {
+            try{
+                var requests = await requestService.GetWaitingRequestsService();
+
+                return Ok(requests);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}");
+            }
+        }
+
+        [HttpPost("SetDoctor")]
+        public async Task<IActionResult> SetDoctor([FromBody]SetDoctorDTO setDoctorRequest)
+        {
+            try{
+                await requestService.SetDoctorService(setDoctorRequest.DoctorId, setDoctorRequest.RequestId);
+
+                return Ok("Доктор установлен");
+            }
+            catch(Exception ex)
+            {
                 return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}");
             }
         }

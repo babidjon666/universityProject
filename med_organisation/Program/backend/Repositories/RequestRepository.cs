@@ -27,18 +27,13 @@ namespace backend.Repositories
             {
                 User = user,
                 DescriptionOfGoal = request.DescriptionOfGoal,  
+                DoctorId = 0,
                 Date = request.Date,  
                 Time = request.Time,  
                 RequestStatus = request.RequestStatus 
             };
             _context.Requests.Add(newRequest);
             await Save();
-
-            //if (user.Profile != null)
-            //{
-            //    user.Profile.Requests.Add(newRequest);
-            //    await Save();
-            //}
         }
 
         public async Task<IEnumerable<Request>> GetUsersRequest(int userId)
@@ -53,6 +48,44 @@ namespace backend.Repositories
             }
 
             return user.Requests;
+        }
+
+        public async Task<IEnumerable<Request>> GetAllWaitingRequests()
+        {
+            try{
+                return await _context.Requests
+                                    .Where(r => r.RequestStatus == enums.RequestStatus.InProcess)
+                                    .ToListAsync();
+            }
+            catch(Exception ex){
+                throw new Exception("Ошибка в базе данных");
+            }
+        }
+
+       public async Task SetDoctorRepository(int doctorId, int requestId)
+        {
+            var requestForSet = await _context.Requests
+                .FirstOrDefaultAsync(r => r.Id == requestId);
+
+            if (requestForSet == null)
+            {
+                throw new Exception("Заявка не найдена");
+            }
+
+            var checkRequest = await _context.Requests
+                .FirstOrDefaultAsync(r => r.Date == requestForSet.Date 
+                                        && r.Time == requestForSet.Time 
+                                        && r.DoctorId == doctorId 
+                                        && r.Id != requestId);
+
+            if (checkRequest != null)
+            {
+                throw new Exception("Доктор занят");
+            }
+
+            requestForSet.DoctorId = doctorId;
+            requestForSet.RequestStatus = enums.RequestStatus.Ready;
+            await Save();
         }
     }
 }

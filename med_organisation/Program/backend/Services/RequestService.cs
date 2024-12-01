@@ -32,5 +32,15 @@ namespace backend.Services
 
             return requests;
         }
+
+        public async Task<IEnumerable<Request>> GetWaitingRequestsService()
+        {
+            return await requestRepository.GetAllWaitingRequests();
+        }
+
+        public async Task SetDoctorService(int doctorId, int requestId)
+        {
+            await requestRepository.SetDoctorRepository(doctorId, requestId);
+        }
     }
 }

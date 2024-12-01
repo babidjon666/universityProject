@@ -37,7 +37,11 @@ export const Auth = () => {
             const [id, role] = result.split(",");
             if (role === "Doctor") {
                 navigate(`/doctorProfile/${id}`); 
-            } else {
+            } 
+            if (role === "Admin") {
+                navigate(`/adminProfile/${id}`); 
+            }
+            else {
                 navigate(`/userProfile/${id}`); 
             };
             message.success("Успешный вход!");

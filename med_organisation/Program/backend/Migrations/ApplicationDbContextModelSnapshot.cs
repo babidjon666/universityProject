@@ -146,6 +146,9 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RequestStatus")
                         .HasColumnType("int");
 
