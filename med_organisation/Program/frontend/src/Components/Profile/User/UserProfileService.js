@@ -27,10 +27,35 @@ export const editPatient = async (oldPatientId, documentNumber, serie, iNN, pate
         });
         return response.data; 
     } catch (error) {
-        console.error("Login error:", error);
+        console.error("Patient error:", error);
         throw error; 
     }
 };
+
+// функция для редактирования пасспорта
+export const editPassport = async (oldPassportId, documentNumber, serie, sex, placeOfBirthday, codeOfState, nationality, issuingAuthority, placeOfResidence, dateOfBirth, dateOfIssue, dateOfExpiry) => {
+    try {
+        const response = await axios.post("http://localhost:5288/api/Profile/EditPassport", {
+            oldPassportId: oldPassportId,
+            documentNumber: documentNumber,
+            serie: serie,
+            sex: sex,
+            placeOfBirthday: placeOfBirthday,
+            codeOfState: codeOfState,
+            nationality: nationality,
+            issuingAuthority: issuingAuthority,
+            placeOfResidence: placeOfResidence,
+            dateOfBirth: dateOfBirth,
+            dateOfIssue: dateOfIssue,
+            dateOfExpiry: dateOfExpiry,
+        });
+        return response.data; 
+    } catch (error) {
+        console.error("Passport error:", error);
+        throw error; 
+    }
+};
+
 
 // функция для форматирование национальности 
 export const getNationalityName = (nationality) => {

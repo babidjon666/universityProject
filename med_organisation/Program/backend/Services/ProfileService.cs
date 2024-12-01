@@ -1,6 +1,7 @@
 using backend.interfaces;
 using backend.models;
 using backend.models.Atributes;
+using backend.models.Attributes;
 
 namespace backend.Services
 {
@@ -28,6 +29,11 @@ namespace backend.Services
         public async Task EditPatientService(int oldPatientId, Patient newPatient)
         {
             await profileRepository.EditPatientInDataBase(oldPatientId, newPatient);
+        }
+
+        public async Task EditPassportService(int oldPassportId, Passport newPassport)
+        {
+            await profileRepository.EditPassportInDataBase(oldPassportId, newPassport);
         }
     }
 }

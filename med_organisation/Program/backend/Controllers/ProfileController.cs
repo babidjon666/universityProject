@@ -1,6 +1,7 @@
 using backend.interfaces;
 using backend.models;
 using backend.models.Atributes;
+using backend.models.Attributes;
 using backend.models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
@@ -55,6 +56,36 @@ namespace backend.Controllers
             catch (Exception ex)
             {
                 return BadRequest($"Ошибка смены патента: {ex.Message}");
+            }
+        }
+        [HttpPost("EditPassport")]
+        public async Task<IActionResult> EditPatient([FromBody]EditPassportDTO passportRequest)
+        {
+            if (passportRequest == null){
+                return Conflict("Нету паспорта");
+            }
+
+            var passport = new Passport {
+                DocumentNumber = passportRequest.DocumentNumber,
+                Serie = passportRequest.Serie,
+                Sex = passportRequest.Sex,
+                PlaceOfBirthday = passportRequest.PlaceOfBirthday,
+                CodeOfState = passportRequest.CodeOfState,
+                Nationality = passportRequest.Nationality,
+                IssuingAuthority = passportRequest.IssuingAuthority,
+                PlaceOfResidence = passportRequest.PlaceOfResidence,
+                DateOfBirth = passportRequest.DateOfBirth,
+                DateOfIssue = passportRequest.DateOfIssue,
+                DateOfExpiry = passportRequest.DateOfExpiry
+            };
+
+            try{
+                await profileService.EditPassportService(passportRequest.OldPassportId, passport);
+                return Ok($"Пасспорт с id={passportRequest.OldPassportId} был изменен");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Ошибка смены паспорта: {ex.Message}");
             }
         }
     }

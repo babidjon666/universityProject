@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProfile } from './UserProfileService.js';
-import { Button, DatePicker, Form, Input, Avatar, Menu, List, Modal } from 'antd';
+import { Button, Avatar, Menu, List, Modal } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { Patient } from './Patient.jsx';
+import { Passport } from './Passport.jsx';
 
 const data = [
     {
@@ -22,11 +24,19 @@ const data = [
 export const UsersProfile = () => {
     const [activeSection, setActiveSection] = useState('personalInfo');
     const [profile, setProfile] = useState(null);
+
     const [passport, setPassport] = useState({
-        passportNumber: '',
-        issuedBy: '',
-        issueDate: '',
-        expirationDate: ''
+        documentNumber: '',
+        serie: '',
+        sex: false,
+        placeOfBirthday: '',
+        codeOfState: '',
+        nationality: '',
+        issuingAuthority: '',
+        placeOfResidence: '',
+        dateOfBirth: null,
+        dateOfIssue: null,
+        dateOfExpiry: null,
     });
 
     const [patient, setPatient] = useState({
@@ -39,15 +49,8 @@ export const UsersProfile = () => {
         dateOfIssue: null
     });
 
-    const [isEditingPassport, setIsEditingPassport] = useState(false);
     const { id } = useParams();
     const navigate = useNavigate();
-
-    const [form] = Form.useForm();
-    const formItemLayout = {
-        labelCol: { xs: { span: 24 }, sm: { span: 6 } },
-        wrapperCol: { xs: { span: 24 }, sm: { span: 14 } },
-    };
 
     useEffect(() => {
         fetchProfile();
@@ -67,6 +70,21 @@ export const UsersProfile = () => {
                 nationality: profileData.profile.patient.nationality,
                 dateOfIssue: profileData.profile.patient.dateOfIssue,
             });
+
+            setPassport({
+                documentNumber: profileData.profile.passport.documentNumber,
+                serie: profileData.profile.passport.serie,
+                sex: profileData.profile.passport.sex,
+                placeOfBirthday: profileData.profile.passport.placeOfBirthday,
+                codeOfState: profileData.profile.passport.codeOfState,
+                nationality: profileData.profile.passport.nationality,
+                issuingAuthority: profileData.profile.passport.issuingAuthority,
+                placeOfResidence: profileData.profile.passport.placeOfResidence,
+                dateOfBirth: profileData.profile.passport.dateOfBirth,
+                dateOfIssue: profileData.profile.passport.dateOfIssue,
+                dateOfExpiry: profileData.profile.passport.dateOfExpiry,
+            });
+
         } catch (error) {
             console.error('Ошибка при получении профиля:', error);
         }
@@ -75,6 +93,7 @@ export const UsersProfile = () => {
     // Функция для навигации
     const handleSectionChange = (section) => {
         setActiveSection(section);
+        console.log(profile);
     };
 
     // Функция для выхода из профиля с подтверждением через Modal
@@ -91,11 +110,6 @@ export const UsersProfile = () => {
                 handleSectionChange("personalInfo");
             },
         });
-    };
-
-    // Функция для отмены редактирования паспорта
-    const handleCancelEditingPassport = () => {
-        setIsEditingPassport(false);
     };
 
     return (
@@ -146,75 +160,7 @@ export const UsersProfile = () => {
                             </div>
                         </div>
                         <Patient patient={patient} profile={profile} fetchProfile={fetchProfile} />
-                        <div className="passport-info">
-                            <h4>Passport</h4>
-                            {isEditingPassport ? (
-                                <Form
-                                    {...formItemLayout}
-                                    form={form}
-                                    style={{ maxWidth: 600 }}
-                                    initialValues={{
-                                        passportNumber: passport.passportNumber,
-                                        issuedBy: passport.issuedBy,
-                                        issueDate: passport.issueDate,
-                                        expirationDate: passport.expirationDate,
-                                    }}
-                                >
-                                    <Form.Item
-                                        label="Passport Number"
-                                        name="passportNumber"
-                                        rules={[{ required: true, message: 'Please input passport number!' }]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        label="Issued By"
-                                        name="issuedBy"
-                                        rules={[{ required: true, message: 'Please input the issuer!' }]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        label="Issue Date"
-                                        name="issueDate"
-                                        rules={[{ required: true, message: 'Please input the issue date!' }]}
-                                    >
-                                        <DatePicker />
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        label="Expiration Date"
-                                        name="expirationDate"
-                                        rules={[{ required: true, message: 'Please input expiration date!' }]}
-                                    >
-                                        <DatePicker />
-                                    </Form.Item>
-
-                                    <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
-                                        <Button type="primary" htmlType="submit" style={{ marginRight: 10 }}>
-                                            Save
-                                        </Button>
-                                        <Button type="default" onClick={handleCancelEditingPassport}>
-                                            Cancel
-                                        </Button>
-                                    </Form.Item>
-                                </Form>
-                            ) : (
-                                <div>
-                                    <div style={{ textAlign: 'left' }}>
-                                        <p>Passport Number: {passport.passportNumber}</p>
-                                        <p>Issued By: {passport.issuedBy}</p>
-                                        <p>Issue Date: {passport.issueDate}</p>
-                                        <p>Expiration Date: {passport.expirationDate}</p>
-                                    </div>
-                                    <button type="button" onClick={() => setIsEditingPassport(true)}>
-                                        Edit Passport Info
-                                    </button>
-                                </div>
-                            )}
-                        </div>
+                        <Passport passport={passport} profile={profile} fetchProfile={fetchProfile} />
                     </div>
                 )}
 
@@ -234,6 +180,16 @@ export const UsersProfile = () => {
 
                 {activeSection === 'myRequests' && (
                     <div className="section">
+                        <div style={{ marginBottom: '20px', textAlign: 'right' }}>
+                            <Button 
+                                type="primary" 
+                                size="large" 
+                                icon={<PlusOutlined />} 
+                                style={{ borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
+                            >
+                                Create request
+                            </Button>
+                        </div>
                         <List
                             pagination={{
                                 position: 'bottom',

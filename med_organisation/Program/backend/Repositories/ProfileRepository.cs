@@ -2,6 +2,7 @@ using backend.Data;
 using backend.interfaces;
 using backend.models;
 using backend.models.Atributes;
+using backend.models.Attributes;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repositories
@@ -46,6 +47,31 @@ namespace backend.Repositories
             oldPatient.DateOfIssue = newPatient.DateOfIssue;
 
             await Save();
+        }
+
+        public async Task EditPassportInDataBase(int oldPassportId, Passport newPassport)
+        {
+            var oldPassport = await _context.Passports
+                                .FirstOrDefaultAsync(p => p.Id == oldPassportId);
+
+            if (oldPassport == null)
+            {
+                throw new Exception($"Passport with ID {oldPassport} not found.");
+            }
+
+            oldPassport.DocumentNumber = newPassport.DocumentNumber; 
+            oldPassport.Serie = newPassport.Serie; 
+            oldPassport.Sex = newPassport.Sex; 
+            oldPassport.PlaceOfBirthday = newPassport.PlaceOfBirthday; 
+            oldPassport.CodeOfState = newPassport.CodeOfState; 
+            oldPassport.Nationality = newPassport.Nationality; 
+            oldPassport.IssuingAuthority = newPassport.IssuingAuthority; 
+            oldPassport.PlaceOfResidence = newPassport.PlaceOfResidence; 
+            oldPassport.DateOfBirth = newPassport.DateOfBirth; 
+            oldPassport.DateOfIssue = newPassport.DateOfIssue; 
+            oldPassport.DateOfExpiry = newPassport.DateOfExpiry; 
+
+            await Save();               
         }
     }
 }
