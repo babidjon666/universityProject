@@ -12,7 +12,7 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241201211628_InitialCreate")]
+    [Migration("20241202155943_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -167,6 +167,27 @@ namespace backend.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Requests");
+                });
+
+            modelBuilder.Entity("backend.models.Settings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Deadlines")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Terms")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("backend.models.UserModel", b =>

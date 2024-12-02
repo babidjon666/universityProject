@@ -15,7 +15,7 @@ namespace backend.Data
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<MedCard> MedCards { get; set; }
-
+        public DbSet<Settings> Settings { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Настройка связи между UserModel и Request (1:N)

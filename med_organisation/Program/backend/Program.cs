@@ -21,11 +21,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 builder.Services.AddScoped<IRequestRepository, RequestRepository>();
+builder.Services.AddScoped<ISettingsRepository, SettingsRepository>();
 
 // Регистрация сервисов
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IRequestService, RequestService>();
+builder.Services.AddScoped<ISettingsService, SettingsService>();
 
 // Добавление контроллеров
 builder.Services.AddControllers()
