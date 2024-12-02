@@ -2,7 +2,6 @@ using backend.Data;
 using backend.interfaces;
 using backend.models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace backend.Repositories
 {
@@ -31,6 +30,11 @@ namespace backend.Repositories
             {
                 throw new KeyNotFoundException($"Setting with ID {settingsId} not found.");
             }
+        }
+
+        public async Task<IEnumerable<Settings>> GetSettingsRepository()
+        {
+            return await _context.Settings.ToListAsync();
         }
     }
 }

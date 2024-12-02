@@ -1,95 +1,63 @@
 import React, { useState, useEffect } from 'react';
+import { Avatar, Menu, Modal, Button, List, Input, Form } from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, Avatar, Menu, List, Modal, Select, message } from 'antd';
-import { getAllWaitingRequests, getFreeDoctors, setDoctorSerivce, cancelRequest } from './AdminProfileService.js';
+import Requests from './Requests.jsx';
+import { getSettings, deleteSetting, createSetting } from './AdminProfileService.js';
+import { PlusOutlined, ToolOutlined } from '@ant-design/icons';
 
 export const AdminProfile = () => {
     const [activeSection, setActiveSection] = useState('settings');
-    const [requests, setRequests] = useState([]);
-    const [selectedRequest, setSelectedRequest] = useState(null);
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [selectedDoctor, setSelectedDoctor] = useState(null);
-    const [doctors, setDoctors] = useState([]);
     const { id } = useParams();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        fetchRequests();
-    }, []);
+    const [settings, setSettings] = useState([]);
+    const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false); 
+    const [isCreateModalVisible, setIsCreateModalVisible] = useState(false); // Новое состояние для модалки создания
+    const [settingToDelete, setSettingToDelete] = useState(null); 
 
-    // Получение заявок
-    const fetchRequests = async () => {
-        try {
-            const response = await getAllWaitingRequests();
-            const requestsData = response.$values;
-            setRequests(requestsData);
-        } catch (error) {
-            console.error('Error fetching requests:', error);
-            message.error('Failed to load requests.');
-        }
-    };
+    const [form] = Form.useForm(); // Для работы с формой
 
-    const fetchDoctors = async (requestId) => {
-        try {
-            const response = await getFreeDoctors(requestId);
-            const requestsData = response.$values;
-            console.log(requestsData);
-            setDoctors(requestsData);
-        } catch (error) {
-            console.error('Error fetching doctors:', error);
-            message.error('Failed to load doctors.');
-        }
-    };
-
-    // Открытие модального окна и загрузка списка докторов
-    const handleOpenRequest = async (request) => {
-        setSelectedRequest(request);
-        fetchDoctors(request.id)
-        setIsModalVisible(true);
-    };
-
-    // Закрытие модального окна
-    const handleCancelModal = () => {
-        setIsModalVisible(false);
-        setSelectedDoctor(null);
-    };
-
-    // Принятие заявки
-    const handleAcceptRequest = async () => {
-        if (!selectedDoctor) {
-            message.warning('Please select a doctor.');
-            return;
-        }
-        try {
-            await setDoctorSerivce(selectedDoctor, selectedRequest.id);
-            message.success('Request accepted.');
-            fetchRequests();
-            handleCancelModal();
-        } catch (error) {
-            console.error('Error accepting request:', error);
-            message.error('Failed to accept request.');
-        }
-    };
-
-    // Отмена заявки
-    const handleCancelRequest = async () => {
-        try {
-            await cancelRequest(selectedRequest.id);
-            message.success('Request cancelled.');
-            fetchRequests();
-            handleCancelModal();
-        } catch (error) {
-            console.error('Error cancelling request:', error);
-            message.error('Failed to cancel request.');
-        }
-    };
-
-    // Смена секции
+    // Change active section
     const handleSectionChange = (section) => {
         setActiveSection(section);
     };
 
-    // Выход из профиля
+    useEffect(() => {
+        fetchSettings();
+    }, []);
+
+    const fetchSettings = async () => {
+        try {
+            const response = await getSettings();
+            const settingsData = response.$values;
+            setSettings(settingsData);
+        } catch (error) {
+            console.error('Error fetching settingsData:', error);
+        }
+    };
+
+    const handleDelete = async (settingId) => {
+        try {
+            await deleteSetting(settingId);
+            setSettings(prevSettings => prevSettings.filter(setting => setting.id !== settingId));
+            setIsDeleteModalVisible(false); 
+        } catch (error) {
+            console.error('Error deleting setting:', error);
+        }
+    };
+
+    const handleCreateSetting = async (values) => {
+        try {
+            // Вызываем createSetting с переданными значениями
+            const { deadlines, terms } = values;
+            await createSetting(deadlines, terms); 
+            fetchSettings(); // Обновляем настройки после создания
+            setIsCreateModalVisible(false); // Закрываем модалку
+        } catch (error) {
+            console.error('Error creating setting:', error);
+        }
+    };
+
     const handleLogout = () => {
         Modal.confirm({
             title: 'Exit',
@@ -100,6 +68,23 @@ export const AdminProfile = () => {
                 navigate(`/login`, { replace: true });
             },
         });
+    };
+
+    const showDeleteModal = (settingId) => {
+        setSettingToDelete(settingId);
+        setIsDeleteModalVisible(true); 
+    };
+
+    const handleCancelDelete = () => {
+        setIsDeleteModalVisible(false); 
+    };
+
+    const showCreateModal = () => {
+        setIsCreateModalVisible(true); // Показываем модалку создания
+    };
+
+    const handleCancelCreate = () => {
+        setIsCreateModalVisible(false); // Закрываем модалку
     };
 
     return (
@@ -132,82 +117,103 @@ export const AdminProfile = () => {
 
             <div className="dashboard-content">
                 {activeSection === 'settings' && (
-                    <div className="section-container">
-                        {/* Контент для настроек */}
-                    </div>
-                )}
-
-                {activeSection === 'requests' && (
                     <div className="section">
+                        <div style={{ marginBottom: '20px', textAlign: 'right' }}>
+                            <Button 
+                                type="primary" 
+                                size="large" 
+                                icon={<PlusOutlined />} 
+                                style={{ borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
+                                onClick={showCreateModal} // Открыть модалку для создания
+                            >
+                                Create setting
+                            </Button>
+                        </div>
                         <List
                             pagination={{
                                 position: 'bottom',
                                 align: 'center',
                                 pageSize: 3,
                             }}
-                            dataSource={requests}
+                            dataSource={settings}
                             renderItem={(item, index) => (
                                 <List.Item style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                                    <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-                                        <Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} size={80} style={{ marginRight: '20px' }} />
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>  {/* Центрируем по вертикали */}
+                                        <ToolOutlined 
+                                            style={{ fontSize: '40px', color: '#1890ff', marginRight: '20px' }} 
+                                        />
                                         <div style={{ textAlign: 'left' }}>
                                             <div style={{ fontSize: '18px', fontWeight: 'bold' }}>
-                                                Request №{index + 1}: {item.descriptionOfGoal}
+                                                Setting №{index + 1}: 
                                             </div>
                                             <div style={{ fontSize: '14px', color: '#777' }}>
-                                                <p><strong>Appointment date:</strong> {new Date(item.date).toLocaleDateString()}</p>
-                                                <p><strong>Appointment time:</strong> {item.time}</p>
+                                                <p><strong>DeadLines:</strong> {item.deadlines}</p>
+                                                <p><strong>Terms:</strong> {item.terms}</p>
                                             </div>
                                         </div>
                                     </div>
                                     <Button
                                         type="primary"
+                                        danger
+                                        onClick={() => showDeleteModal(item.id)} // Show modal on delete button click
                                         style={{ alignSelf: 'center' }}
-                                        onClick={() => handleOpenRequest(item)}
                                     >
-                                        Open
+                                        Delete
                                     </Button>
                                 </List.Item>
                             )}
                         />
                     </div>
                 )}
+
+                {activeSection === 'requests' && <Requests />}
             </div>
 
-            {/* Модальное окно */}
+            {/* Delete Confirmation Modal */}
             <Modal
-                title={`Request №${selectedRequest?.id}`}
-                visible={isModalVisible}
-                onCancel={handleCancelModal}
-                footer={null}
-                centered
+                title="Delete Setting"
+                visible={isDeleteModalVisible}
+                onOk={() => handleDelete(settingToDelete)} // Call the delete handler on confirmation
+                onCancel={handleCancelDelete} // Close the modal on cancel
+                okText="Yes"
+                cancelText="No"
             >
-                <p><strong>Goal:</strong> {selectedRequest?.descriptionOfGoal}</p>
-                <p><strong>Date:</strong> {new Date(selectedRequest?.date).toLocaleDateString()}</p>
-                <p><strong>Time:</strong> {selectedRequest?.time}</p>
-                <Select
-                    placeholder="Select a doctor"
-                    style={{ width: '100%', marginBottom: '20px' }}
-                    value={selectedDoctor}
-                    onChange={(value) => setSelectedDoctor(value)}
+                <p>Are you sure you want to delete this setting?</p>
+            </Modal>
+
+            {/* Create Setting Modal */}
+            <Modal
+                title="Create New Setting"
+                visible={isCreateModalVisible}
+                onCancel={handleCancelCreate} 
+                footer={null}
+                width={500}
+            >
+                <Form
+                    form={form}
+                    onFinish={handleCreateSetting}
+                    layout="vertical"
                 >
-                    {doctors.map((doctor) => (
-                        <Select.Option key={doctor.id} value={doctor.id}>
-                            Dr {doctor.name} {doctor.surname}
-                        </Select.Option>
-                    ))}
-                </Select>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Button onClick={handleCancelModal}>Exit</Button>
-                    <Button onClick={handleCancelRequest}>Cancel Request</Button>
-                    <Button
-                        type="primary"
-                        onClick={handleAcceptRequest}
-                        disabled={!selectedDoctor}
+                    <Form.Item
+                        label="Deadlines"
+                        name="deadlines"
+                        rules={[{ required: true, message: 'Please input the deadlines!' }]}
                     >
-                        Accept
-                    </Button>
-                </div>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Terms"
+                        name="terms"
+                        rules={[{ required: true, message: 'Please input the terms!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+                            Create
+                        </Button>
+                    </Form.Item>
+                </Form>
             </Modal>
         </div>
     );

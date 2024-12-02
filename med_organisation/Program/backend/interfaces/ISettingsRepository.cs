@@ -6,5 +6,6 @@ namespace backend.interfaces
     {
         Task CreateSettingRepository(Settings settings);
         Task DeleteSettingsRepository(int settingsId);
+        Task<IEnumerable<Settings>> GetSettingsRepository();
     }
 }

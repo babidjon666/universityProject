@@ -22,5 +22,10 @@ namespace backend.Services
         {
             await settingsRepository.DeleteSettingsRepository(settingsId);
         }
+
+        public async Task<IEnumerable<Settings>> GetSettingsService()
+        {
+            return await settingsRepository.GetSettingsRepository();
+        }
     }
 }

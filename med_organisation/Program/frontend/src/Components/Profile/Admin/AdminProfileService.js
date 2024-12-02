@@ -47,3 +47,39 @@ export const cancelRequest = async (requestId) => {
         throw error; 
     }
 };
+
+// функция для получения настроек
+export const getSettings = async () => {
+    try {
+        const response = await axios.get(`http://localhost:5288/api/Settings/GetAllSettings`);
+        return response.data; 
+    } catch (error) {
+        console.error("Patient error:", error);
+        throw error; 
+    }
+};
+
+// функция для удаления настроек
+export const deleteSetting = async (settingId) => {
+    try {
+        const response = await axios.delete(`http://localhost:5288/api/Settings/DeleteSettings?settingId=${settingId}`);
+        return response.data; 
+    } catch (error) {
+        console.error("Patient error:", error);
+        throw error; 
+    }
+};
+
+// функция для добавления настроек
+export const createSetting = async (deadlines, terms) => {
+    try {
+        const response = await axios.post("http://localhost:5288/api/Settings/CreateSettings", {
+            deadlines: deadlines,
+            terms: terms,
+        });
+        return response.data; 
+    } catch (error) {
+        console.error("Patient error:", error);
+        throw error; 
+    }
+};

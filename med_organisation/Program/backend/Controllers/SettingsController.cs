@@ -46,5 +46,17 @@ namespace backend.Controllers
                 return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}"); 
             }
         }
+
+        [HttpGet("GetAllSettings")]
+        public async Task<ActionResult<IEnumerable<Settings>>> GetAllSettings()
+        {
+            try{
+                var setting = await settingsService.GetSettingsService();
+                return Ok(setting);
+            }
+            catch(Exception ex){
+                return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}"); 
+            }
+        }
     }
 }

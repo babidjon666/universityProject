@@ -6,5 +6,6 @@ namespace backend.interfaces
     {
         Task CreateSettingsService(Settings settings);
         Task DeleteSettingsService(int settingsId);
+        Task<IEnumerable<Settings>> GetSettingsService();
     }
 }
