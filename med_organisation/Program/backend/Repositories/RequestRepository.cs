@@ -87,5 +87,53 @@ namespace backend.Repositories
             requestForSet.RequestStatus = enums.RequestStatus.Ready;
             await Save();
         }
+
+        public async Task<IEnumerable<UserModel>> GetAllFreeDoctors(int requestId)
+        {
+            var request = await _context.Requests
+                .FirstOrDefaultAsync(r => r.Id == requestId);
+
+            if (request == null)
+            {
+                throw new Exception("Заявка не найдена");
+            }
+
+            // Получить всех докторов
+            var allDoctors = await _context.Users
+                .Where(u => u.RoleName == enums.RoleName.Doctor)
+                .ToListAsync();
+
+            // Найти занятых докторов на это время
+            var busyDoctors = await _context.Requests
+                .Where(r => r.Date == request.Date && r.Time == request.Time && r.DoctorId != 0)
+                .Select(r => r.DoctorId)
+                .ToListAsync();
+
+            // Отфильтровать свободных докторов
+            var freeDoctors = allDoctors
+                .Where(d => !busyDoctors.Contains(d.Id))
+                .Select(d => new UserModel
+                {
+                    Id = d.Id,
+                    Name = d.Name,
+                    Surname = d.Surname
+                });
+
+            return freeDoctors;
+        }
+
+        public async Task CancelRequestRepository(int requestId)
+        {
+            var request = await _context.Requests
+                .FirstOrDefaultAsync(r => r.Id == requestId);
+
+            if (request == null)
+            {
+                throw new Exception("Заявка не найдена!");
+            }
+
+            request.RequestStatus = enums.RequestStatus.Canceled;
+            await Save();
+        }
     }
 }

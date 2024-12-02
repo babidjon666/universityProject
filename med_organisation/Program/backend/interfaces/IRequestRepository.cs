@@ -10,5 +10,7 @@ namespace backend.interfaces
         Task<IEnumerable<Request>> GetUsersRequest(int userId);
         Task<IEnumerable<Request>> GetAllWaitingRequests();
         Task SetDoctorRepository(int doctorId, int requestId);
+        Task<IEnumerable<UserModel>> GetAllFreeDoctors(int requestId);
+        Task CancelRequestRepository(int requestId);
     }
 }

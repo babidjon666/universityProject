@@ -91,5 +91,31 @@ namespace backend.Controllers
                 return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}");
             }
         }
+
+        [HttpGet("GetFreeDoctors")]
+        public async Task<ActionResult<IEnumerable<UserModel>>> GetFreeDoctors(int requestId)
+        {
+            try{
+                var doctors = await requestService.GetFreeDoctorsService(requestId);
+
+                return Ok(doctors);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}"); 
+            }
+        }
+        [HttpPut("CancelRequest")]
+        public async Task<IActionResult> CancelRequest(int requestId)
+        {
+            try{
+                await requestService.CancelRequestService(requestId);
+                return Ok($"Заявка с id={requestId} отменена!");
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}"); 
+            }
+        }
     }
 }

@@ -8,5 +8,7 @@ namespace backend.interfaces
          Task<IEnumerable<Request>> GetUsersRequestsService(int userId);
          Task<IEnumerable<Request>> GetWaitingRequestsService();
          Task SetDoctorService(int doctorId, int requestId);
+         Task<IEnumerable<UserModel>> GetFreeDoctorsService(int requestId);
+         Task CancelRequestService(int requestId);
     }
 }

@@ -42,5 +42,15 @@ namespace backend.Services
         {
             await requestRepository.SetDoctorRepository(doctorId, requestId);
         }
+
+        public async Task<IEnumerable<UserModel>> GetFreeDoctorsService(int requestId)
+        {
+            return await requestRepository.GetAllFreeDoctors(requestId);
+        }
+
+        public async Task CancelRequestService(int requestId)
+        {
+            await requestRepository.CancelRequestRepository(requestId);
+        }
     }
 }

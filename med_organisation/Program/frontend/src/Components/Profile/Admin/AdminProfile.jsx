@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Avatar, Menu, List, Modal, Select, message } from 'antd';
-import { getAllWaitingRequests } from './AdminProfileService.js';
+import { getAllWaitingRequests, getFreeDoctors, setDoctorSerivce, cancelRequest } from './AdminProfileService.js';
 
 export const AdminProfile = () => {
     const [activeSection, setActiveSection] = useState('settings');
-    const [requests, setRequests] = useState([]); // Состояние для заявок
-    const [selectedRequest, setSelectedRequest] = useState(null); // Для хранения текущей заявки
-    const [isModalVisible, setIsModalVisible] = useState(false); // Состояние модального окна
-    const [selectedDoctor, setSelectedDoctor] = useState(null); // Состояние для выбранного доктора
-    const [doctors, setDoctors] = useState([]); // Список докторов
+    const [requests, setRequests] = useState([]);
+    const [selectedRequest, setSelectedRequest] = useState(null);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [selectedDoctor, setSelectedDoctor] = useState(null);
+    const [doctors, setDoctors] = useState([]);
     const { id } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchRequests(); // Получение заявок при монтировании
-        fetchDoctors(); // Получение списка докторов
+        fetchRequests();
     }, []);
 
-    // Функция для получения заявок
+    // Получение заявок
     const fetchRequests = async () => {
         try {
             const response = await getAllWaitingRequests();
-            const requestsData = response.$values; // Предполагаем, что структура данных такая же
+            const requestsData = response.$values;
             setRequests(requestsData);
         } catch (error) {
             console.error('Error fetching requests:', error);
@@ -30,67 +29,67 @@ export const AdminProfile = () => {
         }
     };
 
-    // Функция для получения списка докторов
-    const fetchDoctors = async () => {
+    const fetchDoctors = async (requestId) => {
         try {
-            // Симуляция API вызова
-            const response = [
-                { id: 1, name: 'Dr. John Smith' },
-                { id: 2, name: 'Dr. Jane Doe' },
-                { id: 3, name: 'Dr. Alice Johnson' },
-            ];
-            setDoctors(response);
+            const response = await getFreeDoctors(requestId);
+            const requestsData = response.$values;
+            console.log(requestsData);
+            setDoctors(requestsData);
         } catch (error) {
             console.error('Error fetching doctors:', error);
+            message.error('Failed to load doctors.');
         }
     };
 
-    // Функция для открытия модального окна
-    const handleOpenRequest = (request) => {
+    // Открытие модального окна и загрузка списка докторов
+    const handleOpenRequest = async (request) => {
         setSelectedRequest(request);
+        fetchDoctors(request.id)
         setIsModalVisible(true);
     };
 
-    // Функция для закрытия модального окна
+    // Закрытие модального окна
     const handleCancelModal = () => {
         setIsModalVisible(false);
-        setSelectedDoctor(null); // Сбросить выбор доктора
+        setSelectedDoctor(null);
     };
 
-    // Функция для принятия заявки
+    // Принятие заявки
     const handleAcceptRequest = async () => {
         if (!selectedDoctor) {
             message.warning('Please select a doctor.');
             return;
         }
         try {
+            await setDoctorSerivce(selectedDoctor, selectedRequest.id);
             message.success('Request accepted.');
-            fetchRequests(); // Обновить список заявок
-            handleCancelModal(); // Закрыть модалку
+            fetchRequests();
+            handleCancelModal();
         } catch (error) {
             console.error('Error accepting request:', error);
             message.error('Failed to accept request.');
         }
     };
 
-    // Функция для отмены заявки
+    // Отмена заявки
     const handleCancelRequest = async () => {
         try {
+            await cancelRequest(selectedRequest.id);
             message.success('Request cancelled.');
-            fetchRequests(); // Обновить список заявок
-            handleCancelModal(); // Закрыть модалку
+            fetchRequests();
+            handleCancelModal();
         } catch (error) {
             console.error('Error cancelling request:', error);
             message.error('Failed to cancel request.');
         }
     };
 
-    // Функция для навигации между секциями
+    // Смена секции
     const handleSectionChange = (section) => {
         setActiveSection(section);
     };
 
-    // Функция для выхода из профиля
+    // Выход из профиля
     const handleLogout = () => {
         Modal.confirm({
             title: 'Exit',
@@ -99,9 +98,6 @@ export const AdminProfile = () => {
             cancelText: 'No',
             onOk: () => {
                 navigate(`/login`, { replace: true });
-            },
-            onCancel: () => {
-                handleSectionChange('settings');
             },
         });
     };
@@ -137,7 +133,7 @@ export const AdminProfile = () => {
             <div className="dashboard-content">
                 {activeSection === 'settings' && (
                     <div className="section-container">
-                        {/* Дополнительный контент для настроек */}
+                        {/* Контент для настроек */}
                     </div>
                 )}
 
@@ -197,7 +193,7 @@ export const AdminProfile = () => {
                 >
                     {doctors.map((doctor) => (
                         <Select.Option key={doctor.id} value={doctor.id}>
-                            {doctor.name}
+                            Dr {doctor.name} {doctor.surname}
                         </Select.Option>
                     ))}
                 </Select>
