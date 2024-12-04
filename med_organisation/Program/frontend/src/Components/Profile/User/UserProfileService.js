@@ -117,3 +117,14 @@ export const getReferrals = async (userId) => {
         throw error; 
     }
 };
+
+// функция для получения настроек
+export const getSettings = async () => {
+    try {
+        const response = await axios.get(`http://localhost:5288/api/Settings/GetAllSettings`);
+        return response.data; 
+    } catch (error) {
+        console.error("Login error:", error);
+        throw error; 
+    }
+};
