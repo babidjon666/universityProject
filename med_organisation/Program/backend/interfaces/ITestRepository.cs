@@ -6,5 +6,6 @@ namespace backend.interfaces
     {
         Task CreateReferralFroUser(int userId, ReferralForTesting referralForTesting);
         Task<IEnumerable<ReferralForTesting>> GetReferralForTesting(int userId);
+        Task<IEnumerable<UserModel>> GetMyClientsRepository(int doctorId);
     }
 }

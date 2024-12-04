@@ -41,12 +41,12 @@ export const Auth = () => {
             if (role === "Admin") {
                 navigate(`/adminProfile/${id}`); 
             }
-            else {
+            if (role === "Client") {
                 navigate(`/userProfile/${id}`); 
-            };
+            }
             message.success("Успешный вход!");
         } catch (error) {
-            message.error("Неправильный логин или пароль!");
+            message.warning("Неправильный логин или пароль!");
         }
     };
 

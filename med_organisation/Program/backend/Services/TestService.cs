@@ -22,5 +22,10 @@ namespace backend.Services
         {
             return await testRepository.GetReferralForTesting(userId);
         }
+
+        public async Task<IEnumerable<UserModel>> GetMyClientsService(int doctorId)
+        {
+            return await testRepository.GetMyClientsRepository(doctorId);
+        }
     }
 }

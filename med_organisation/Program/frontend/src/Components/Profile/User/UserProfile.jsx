@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getProfile, getRequests, createRequest } from './UserProfileService.js';
+import { getProfile, getRequests, createRequest, getReferrals} from './UserProfileService.js';
 import { Button, Avatar, Menu, List, Modal, Tag, Form, Input, Select, message, DatePicker} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { Patient } from './Patient.jsx';
 import { Passport } from './Passport.jsx';
-
 export const UsersProfile = () => {
     const [activeSection, setActiveSection] = useState('personalInfo');
     const [profile, setProfile] = useState(null);
     const [requests, setRequests] = useState([]);  // Состояние для заявок
+    const [referrals, setReferrals] = useState([]);  // Состояние для направлений
     const [isModalVisible, setIsModalVisible] = useState(false);  // Состояние для отображения модалки
     const [form] = Form.useForm();  // Для работы с формой
 
@@ -43,6 +43,7 @@ export const UsersProfile = () => {
     useEffect(() => {
         fetchProfile();
         fetchRequests(id);  // Получаем заявки при монтировании компонента
+        fetchReferrals(id);
     }, [id]);
 
     const fetchProfile = async () => {
@@ -87,6 +88,17 @@ export const UsersProfile = () => {
             setRequests(requestsData);  // Сохраняем в состоянии
         } catch (error) {
             console.error("Error fetching requests:", error);
+        }
+    };
+
+    // Получение заявок
+    const fetchReferrals = async (id) => {
+        try {
+            const response = await getReferrals(id);
+            const requestsData = response.$values; 
+            setReferrals(requestsData);  // Сохраняем в состоянии
+        } catch (error) {
+            console.error("Error fetching referrals:", error);
         }
     };
 
@@ -200,6 +212,37 @@ export const UsersProfile = () => {
                         </div>
                         <Patient patient={patient} profile={profile} fetchProfile={fetchProfile} />
                         <Passport passport={passport} profile={profile} fetchProfile={fetchProfile} />
+                    </div>
+                )}
+
+                {activeSection === 'myReferrals' && (
+                    <div className="section">
+                        <div style={{ marginBottom: '20px', textAlign: 'right' }}>
+                        </div>
+                        <List
+                            pagination={{
+                                position: 'bottom',
+                                align: 'center',
+                                pageSize: 3,
+                            }}
+                            dataSource={referrals}  // Используем полученные направления
+                            renderItem={(item, index) => (
+                                <List.Item style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}}>
+                                    <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+                                        <div style={{textAlign: 'left'}}>
+                                            <div style={{ fontSize: '18px', fontWeight: 'bold' }}>
+                                                Referral №{index + 1}: {item.descriptionOfGoal}
+                                            </div>
+                                            <div style={{ fontSize: '14px', color: '#777' }}>
+                                                <p><strong>Date:</strong> {new Date(item.date).toLocaleDateString()}</p>
+                                                <p><strong>Test Type:</strong>  {item.testType === 0 ? 'ClinicalBloodTest' : item.testType === 1 ? 'ClinicalUrineTests' : item.testType === 2 ? 'BloodTestForHIV' : item.testType === 3 ? 'BloodTestForSyphilis' : 'UrineTestForDrugs'}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </List.Item>
+                            )}
+                        />
                     </div>
                 )}
 

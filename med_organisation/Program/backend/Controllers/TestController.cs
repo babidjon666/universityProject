@@ -33,13 +33,25 @@ namespace backend.Controllers
             }
         }
 
-        [HttpGet("CreateReferral")]
+        [HttpGet("GetReferralForTesting")]
         public async Task<ActionResult<IEnumerable<ReferralForTesting>>> GetReferralForTesting(int userId)
         {
             try{   
                 var referrals = await testService.GetReferralForTestingService(userId);
 
                 return Ok(referrals);
+            }catch(Exception ex){
+                return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}"); 
+            }
+        }
+
+        [HttpGet("GetMyClients")]
+        public async Task<ActionResult<IEnumerable<UserModel>>> GetMyClients(int doctorId)
+        {
+            try{   
+                var clients = await testService.GetMyClientsService(doctorId);
+
+                return Ok(clients);
             }catch(Exception ex){
                 return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}"); 
             }

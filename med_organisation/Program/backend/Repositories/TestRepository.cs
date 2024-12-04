@@ -33,17 +33,40 @@ namespace backend.Repositories
 
         public async Task<IEnumerable<ReferralForTesting>> GetReferralForTesting(int userId)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _context.Users
+                .Include(u => u.ReferralsForTesting)
+                .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user == null){
                 throw new Exception("Пользователь не найден в бд");
             }
             
-            var referralForTestings = await _context.ReferralForTesting
-                .Where(r => r.UserId == userId)
-                .ToListAsync();
+            return user.ReferralsForTesting;
+        }
 
-            return referralForTestings;
+        public async Task<IEnumerable<UserModel>> GetMyClientsRepository(int doctorId)
+        {
+            var doctor = await _context.Users.FirstOrDefaultAsync(u => u.Id == doctorId);
+
+            if (doctor == null)
+            {
+                throw new Exception("Доктор не найден");
+            }
+
+            var requests = await _context.Requests
+                .Include(r => r.User)
+                .Where(r => r.DoctorId == doctorId)
+                .ToListAsync();
+            
+            var users = new List<UserModel>();
+            foreach(var request in requests)
+            {
+                if (!users.Contains(request.User)){
+                    users.Add(request.User);
+                }
+            }
+            
+            return users;
         }
     }
 }

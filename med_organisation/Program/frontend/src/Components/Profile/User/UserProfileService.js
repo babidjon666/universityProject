@@ -105,3 +105,15 @@ export const createRequest = async (userId, descriptionOfGoal, date, time) => {
         throw error; 
     }
 };
+
+// функция для получения направлений для пользователя
+
+export const getReferrals = async (userId) => {
+    try {
+        const response = await axios.get(`http://localhost:5288/api/Test/GetReferralForTesting?userId=${userId}`);
+        return response.data; 
+    } catch (error) {
+        console.error("Referral error:", error);
+        throw error; 
+    }
+};
