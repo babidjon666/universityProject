@@ -46,7 +46,7 @@ export const Auth = () => {
             };
             message.success("Успешный вход!");
         } catch (error) {
-            message.success("Неправильный логин или пароль!");
+            message.error("Неправильный логин или пароль!");
         }
     };
 
