@@ -28,7 +28,7 @@ namespace backend.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Ошибка логина: {ex.Message}");
+                return BadRequest($"Ошибка GetProfile: {ex.Message}");
             }
         }
 

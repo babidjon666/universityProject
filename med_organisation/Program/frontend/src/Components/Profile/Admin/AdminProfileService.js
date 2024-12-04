@@ -1,5 +1,4 @@
 import axios from "axios";
-import dayjs from 'dayjs';
 
 // функция для получения всех заявок, которые в ожидании
 export const getAllWaitingRequests = async () => {

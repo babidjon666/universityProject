@@ -28,6 +28,11 @@ namespace backend.Repositories
             var dbUser = await _context.Users
                             .FirstOrDefaultAsync(u => u.Login == login && u.Password == hashedPassword);
 
+            if (dbUser == null)
+            {
+                throw new Exception("Пользователь не найден в бд");
+            }
+            
             return dbUser;
         }
     }

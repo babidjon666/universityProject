@@ -28,13 +28,18 @@ namespace backend.Repositories
             }
             else
             {
-                throw new KeyNotFoundException($"Setting with ID {settingsId} not found.");
+                throw new KeyNotFoundException("Настройка не найдена в бд");
             }
         }
 
         public async Task<IEnumerable<Settings>> GetSettingsRepository()
         {
-            return await _context.Settings.ToListAsync();
+            try{
+                return await _context.Settings.ToListAsync();
+            }
+            catch(Exception ex){
+                throw new Exception("Ошибка в бд", ex);
+            }
         }
     }
 }

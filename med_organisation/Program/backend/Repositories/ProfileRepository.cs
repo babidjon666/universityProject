@@ -22,6 +22,11 @@ namespace backend.Repositories
                                 .ThenInclude(p => p.Patient)          
                             .FirstOrDefaultAsync(u => u.Id == userId); 
 
+            if (dbUser == null)
+            {
+                throw new Exception("Пользователь не найден в бд");
+            }
+
             return dbUser;
         }
         public async Task EditPatientInDataBase(int oldPatientId, Patient newPatient)
@@ -31,7 +36,7 @@ namespace backend.Repositories
 
             if (oldPatient == null)
             {
-                throw new Exception($"Patient with ID {oldPatientId} not found.");
+                throw new Exception("Патент не найден в бд");
             }
 
             oldPatient.DocumentNumber = newPatient.DocumentNumber;
@@ -52,7 +57,7 @@ namespace backend.Repositories
 
             if (oldPassport == null)
             {
-                throw new Exception($"Passport with ID {oldPassport} not found.");
+                throw new Exception("Паспорт не найден в бд");
             }
 
             oldPassport.DocumentNumber = newPassport.DocumentNumber; 

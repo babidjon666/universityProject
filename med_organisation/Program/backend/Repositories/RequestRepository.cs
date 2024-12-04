@@ -44,7 +44,7 @@ namespace backend.Repositories
             
             if (user == null)
             {
-                throw new Exception("User not found");
+                throw new Exception("Пользователь не найден в бд");
             }
 
             return user.Requests;
@@ -58,7 +58,7 @@ namespace backend.Repositories
                                     .ToListAsync();
             }
             catch(Exception ex){
-                throw new Exception("Ошибка в базе данных");
+                throw new Exception("Ошибка в базе данных", ex);
             }
         }
 
@@ -69,7 +69,7 @@ namespace backend.Repositories
 
             if (requestForSet == null)
             {
-                throw new Exception("Заявка не найдена");
+                throw new Exception("Заявка не найдена в бд");
             }
 
             var checkRequest = await _context.Requests
@@ -98,18 +98,15 @@ namespace backend.Repositories
                 throw new Exception("Заявка не найдена");
             }
 
-            // Получить всех докторов
             var allDoctors = await _context.Users
                 .Where(u => u.RoleName == enums.RoleName.Doctor)
                 .ToListAsync();
 
-            // Найти занятых докторов на это время
             var busyDoctors = await _context.Requests
                 .Where(r => r.Date == request.Date && r.Time == request.Time && r.DoctorId != 0)
                 .Select(r => r.DoctorId)
                 .ToListAsync();
 
-            // Отфильтровать свободных докторов
             var freeDoctors = allDoctors
                 .Where(d => !busyDoctors.Contains(d.Id))
                 .Select(d => new UserModel
@@ -129,7 +126,7 @@ namespace backend.Repositories
 
             if (request == null)
             {
-                throw new Exception("Заявка не найдена!");
+                throw new Exception("Заявка не найдена в бд");
             }
 
             request.RequestStatus = enums.RequestStatus.Canceled;
