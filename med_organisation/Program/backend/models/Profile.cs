@@ -10,7 +10,5 @@ namespace backend.models
         public int Id { get; set; }
         public Patient? Patient { get; set; } 
         public Passport? Passport { get; set; } 
-        public string PhoneNumber { get; set; } = string.Empty;
-        public MedCard? MedCard { get; set; }
     }
 }

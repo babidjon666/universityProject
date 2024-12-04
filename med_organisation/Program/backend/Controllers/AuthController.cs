@@ -30,8 +30,6 @@ namespace backend.Controllers
                 Profile = new Profile{
                     Passport = new Passport(),  // Создание пустого паспорта
                     Patient = new Patient(),    // Создание пустого патента
-                    PhoneNumber = string.Empty, // Инициализация номера телефона, если необходимо
-                    MedCard = new MedCard(),   // Создание пустой медкарты, если она есть
                 }
             };
 

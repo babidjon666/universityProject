@@ -14,17 +14,22 @@ namespace backend.Data
         public DbSet<Passport> Passports { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Request> Requests { get; set; }
-        public DbSet<MedCard> MedCards { get; set; }
         public DbSet<Settings> Settings { get; set; }
+        public DbSet<ReferralForTesting> ReferralForTesting { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Настройка связи между UserModel и Request (1:N)
             modelBuilder.Entity<Request>()
-                .HasOne(r => r.User)       // Связь Request -> UserModel
-                .WithMany(u => u.Requests) // Обратная связь UserModel -> Requests
-                .HasForeignKey(r => r.UserId) // Внешний ключ - поле UserId
-                .OnDelete(DeleteBehavior.Cascade); // При удалении пользователя - удалять его запросы
+                .HasOne(r => r.User)       
+                .WithMany(u => u.Requests) 
+                .HasForeignKey(r => r.UserId) 
+                .OnDelete(DeleteBehavior.Cascade); 
 
+             modelBuilder.Entity<ReferralForTesting>()
+                .HasOne(r => r.User)       
+                .WithMany(u => u.ReferralsForTesting) 
+                .HasForeignKey(r => r.UserId) 
+                .OnDelete(DeleteBehavior.Cascade); 
 
             modelBuilder.Entity<UserModel>()
                 .HasOne(u => u.Profile)
@@ -44,12 +49,6 @@ namespace backend.Data
                 .HasForeignKey<Patient>(pa => pa.Id)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Profile>()
-                .HasOne(p => p.MedCard)
-                .WithOne()
-                .HasForeignKey<MedCard>(mc => mc.Id)
-                .OnDelete(DeleteBehavior.Cascade);
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

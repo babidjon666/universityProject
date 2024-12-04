@@ -19,9 +19,7 @@ namespace backend.Repositories
                             .Include(u => u.Profile)              
                                 .ThenInclude(p => p.Passport)     
                             .Include(u => u.Profile)
-                                .ThenInclude(p => p.Patient)      
-                            .Include(u => u.Profile)
-                                .ThenInclude(p => p.MedCard)      
+                                .ThenInclude(p => p.Patient)          
                             .FirstOrDefaultAsync(u => u.Id == userId); 
 
             return dbUser;

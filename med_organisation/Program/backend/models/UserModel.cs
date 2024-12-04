@@ -12,5 +12,6 @@ namespace backend.models
         public RoleName RoleName { get; set; } 
         public Profile? Profile { get; set; }
         public List<Request> Requests { get; set; } = new List<Request>();
+        public List<ReferralForTesting> ReferralsForTesting { get; set; } = new List<ReferralForTesting>();
     }
 }

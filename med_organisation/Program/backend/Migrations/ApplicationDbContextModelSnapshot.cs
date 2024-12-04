@@ -107,28 +107,38 @@ namespace backend.Migrations
                     b.ToTable("Passports");
                 });
 
-            modelBuilder.Entity("backend.models.MedCard", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MedCards");
-                });
-
             modelBuilder.Entity("backend.models.Profile", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Profiles");
+                });
+
+            modelBuilder.Entity("backend.models.ReferralForTesting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TestType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ReferralForTesting");
                 });
 
             modelBuilder.Entity("backend.models.Request", b =>
@@ -237,15 +247,6 @@ namespace backend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("backend.models.MedCard", b =>
-                {
-                    b.HasOne("backend.models.Profile", null)
-                        .WithOne("MedCard")
-                        .HasForeignKey("backend.models.MedCard", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("backend.models.Profile", b =>
                 {
                     b.HasOne("backend.models.UserModel", null)
@@ -253,6 +254,17 @@ namespace backend.Migrations
                         .HasForeignKey("backend.models.Profile", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("backend.models.ReferralForTesting", b =>
+                {
+                    b.HasOne("backend.models.UserModel", "User")
+                        .WithMany("ReferralsForTesting")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("backend.models.Request", b =>
@@ -268,8 +280,6 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.models.Profile", b =>
                 {
-                    b.Navigation("MedCard");
-
                     b.Navigation("Passport");
 
                     b.Navigation("Patient");
@@ -278,6 +288,8 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.models.UserModel", b =>
                 {
                     b.Navigation("Profile");
+
+                    b.Navigation("ReferralsForTesting");
 
                     b.Navigation("Requests");
                 });
