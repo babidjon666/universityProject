@@ -235,7 +235,7 @@ export const UsersProfile = () => {
                                             </div>
                                             <div style={{ fontSize: '14px', color: '#777' }}>
                                                 <p><strong>Date:</strong> {new Date(item.date).toLocaleDateString()}</p>
-                                                <p><strong>Test Type:</strong>  {item.testType === 0 ? 'ClinicalBloodTest' : item.testType === 1 ? 'ClinicalUrineTests' : item.testType === 2 ? 'BloodTestForHIV' : item.testType === 3 ? 'BloodTestForSyphilis' : 'UrineTestForDrugs'}</p>
+                                                <p><strong>Test Type:</strong>  {item.testType === 0 ? 'Clinical Blood Test' : item.testType === 1 ? 'Clinical Urine Test' : item.testType === 2 ? 'Blood Test For HIV' : item.testType === 3 ? 'Blood TestFor Syphilis' : 'Urine Test For Drugs'}</p>
                                             </div>
                                         </div>
                                     </div>
