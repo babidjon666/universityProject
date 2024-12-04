@@ -1,5 +1,4 @@
 import axios from "axios";
-import dayjs from 'dayjs';
 
 // функция для получения клиентов доктора
 export const getClients = async (doctorId) => {
@@ -8,6 +7,20 @@ export const getClients = async (doctorId) => {
         return response.data; 
     } catch (error) {
         console.error("Login error:", error);
+        throw error; 
+    }
+};
+
+export const createReferral = async (userId, testType, date) => {
+    try {
+        const response = await axios.post("http://localhost:5288/api/Test/CreateReferral", {
+            userId: userId,
+            testType: testType,
+            date: date,
+        });
+        return response.data; 
+    } catch (error) {
+        console.error("Referral error:", error);
         throw error; 
     }
 };
