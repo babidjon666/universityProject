@@ -157,11 +157,15 @@ export const Tests = ({ id }) => {
                                     <ExperimentOutlined
                                         style={{
                                             fontSize: '20px',
-                                            color: item.testType === 0 ? 'red' : '#faad14',
+                                            color: item.testType === 0 ? 'red' : 
+                                            item.testType === 1 ? 'gold' :
+                                            item.testType === 2 ? 'green' :
+                                            item.testType === 3 ? 'blue' :
+                                            'grey',
                                             marginRight: '10px',
                                         }}
                                     />
-                                    Test №{index + 1} (
+                                    Test №{index + 1} ( 
                                         {item.testType === 0 ? (
                                         <Tag color="red">Blood Test</Tag>
                                     ) : item.testType === 1 ? (
@@ -172,8 +176,7 @@ export const Tests = ({ id }) => {
                                         <Tag color="blue">Syphilis Test</Tag>
                                     ) : (
                                         <Tag color="grey">Drugs Test</Tag>
-                                    )}
-                                    )
+                                    )})
                                 </>
                             }
                             hoverable
