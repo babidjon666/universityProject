@@ -13,11 +13,14 @@ export const Tests = ({ id }) => {
     const fetchTests = async (id) => {
         try {
             const data = await getTests(id);
+            console.log(data);
 
-            // Объединяем массивы
             const combinedTests = [
                 ...data.clinicalBloodTestResults.$values,
                 ...data.clinicalUrineTestResults.$values,
+                ...data.bloodTestForHIVResults.$values,
+                ...data.bloodTestForSyphilisResults.$values,
+                ...data.urineAnalysisForDrugsAndPsychotropicsResults.$values,
             ];
 
             setTests(combinedTests);
@@ -73,7 +76,7 @@ export const Tests = ({ id }) => {
                 <strong>Leukocytes:</strong> {item.leukocytes}
             </p>
             <p>
-                <strong>Bilirubin:</strong> {item.bilirubin ? 'Yes' : 'No'}
+                <strong>Bilirubin:</strong> {item.bilirubin ? 'Positive' : 'Negative'}
             </p>
             <p>
                 <strong>Protein:</strong> {item.protien}
@@ -85,13 +88,46 @@ export const Tests = ({ id }) => {
                 <strong>Density:</strong> {item.density}
             </p>
             <p>
-                <strong>Nitrites:</strong> {item.nitrites ? 'Yes' : 'No'}
+                <strong>Nitrites:</strong> {item.nitrites ? 'Positive' : 'Negative'}
             </p>
             <p>
-                <strong>Glucose:</strong> {item.glucose ? 'Yes' : 'No'}
+                <strong>Glucose:</strong> {item.glucose ? 'Positive' : 'Negative'}
             </p>
             <p>
                 <strong>Color:</strong> {item.color}
+            </p>
+        </>
+    );
+
+    const renderBloodTestForHIVResults = (item) => (
+        <>
+            <p>
+                <strong>Result:</strong> {item.result ? 'Positive' : 'Negative'}
+            </p>
+        </>
+    );
+
+    const renderBloodTestForSyphilis = (item) => (
+        <>
+            <p>
+                <strong>Result:</strong> {item.result ? 'Positive' : 'Negative'}
+            </p>
+        </>
+    );
+
+    const renderDrugTest = (item) => (
+        <>
+            <p>
+                <strong>Nicotin And Metabolites:</strong> {item.nicotinAndMetabolites ? 'Positive' : 'Negative'}
+            </p>
+            <p>
+                <strong>Alcohol:</strong> {item.alcohol ? 'Positive' : 'Negative'}
+            </p>
+            <p>
+                <strong>Psychoactive Substances:</strong> {item.psychoactiveSubstances ? 'Positive' : 'Negative'}
+            </p>
+            <p>
+                <strong>Narcotic Subctances:</strong> {item.narcoticSubctances ? 'Positive' : 'Negative'}
             </p>
         </>
     );
@@ -126,10 +162,16 @@ export const Tests = ({ id }) => {
                                         }}
                                     />
                                     Test №{index + 1} (
-                                    {item.testType === 0 ? (
+                                        {item.testType === 0 ? (
                                         <Tag color="red">Blood Test</Tag>
-                                    ) : (
+                                    ) : item.testType === 1 ? (
                                         <Tag color="gold">Urine Test</Tag>
+                                    ) : item.testType === 2 ? (
+                                        <Tag color="green">HIV Test</Tag>
+                                    ) : item.testType === 3 ? (
+                                        <Tag color="blue">Syphilis Test</Tag>
+                                    ) : (
+                                        <Tag color="grey">Drugs Test</Tag>
                                     )}
                                     )
                                 </>
@@ -139,12 +181,19 @@ export const Tests = ({ id }) => {
                                 borderRadius: '10px',
                                 boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                                 textAlign: 'left',
-                                width: '300px'
+                                width: '300px',
+                                height: '500px'
                             }}
                         >
                             {item.testType === 0
                                 ? renderBloodTestDetails(item)
-                                : renderUrineTestDetails(item)}
+                                : item.testType === 1
+                                ? renderUrineTestDetails(item)
+                                : item.testType === 2
+                                ? renderBloodTestForHIVResults(item)
+                                : item.testType === 3
+                                ? renderBloodTestForSyphilis(item)
+                                :  renderDrugTest(item)}
                         </Card>
                     </List.Item>
                 )}
