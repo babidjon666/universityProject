@@ -128,3 +128,14 @@ export const getSettings = async () => {
         throw error; 
     }
 };
+
+// функция для получения анализов
+export const getTests = async (userId) => {
+    try {
+        const response = await axios.get(`http://localhost:5288/api/Test/GetUsersTests?userId=${userId}`);
+        return response.data; 
+    } catch (error) {
+        console.error("Login error:", error);
+        throw error; 
+    }
+};

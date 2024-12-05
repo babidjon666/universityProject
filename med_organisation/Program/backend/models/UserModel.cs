@@ -13,5 +13,6 @@ namespace backend.models
         public Profile? Profile { get; set; }
         public List<Request> Requests { get; set; } = new List<Request>();
         public List<ReferralForTesting> ReferralsForTesting { get; set; } = new List<ReferralForTesting>();
+        public List<TestResult> TestResults { get; set; } = new List<TestResult>();
     }
 }

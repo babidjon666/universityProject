@@ -12,7 +12,7 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241204091308_InitialCreate")]
+    [Migration("20241205154308_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,6 +24,8 @@ namespace backend.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.HasSequence("TestResultSequence");
 
             modelBuilder.Entity("backend.models.Atributes.Patient", b =>
                 {
@@ -200,6 +202,30 @@ namespace backend.Migrations
                     b.ToTable("Settings");
                 });
 
+            modelBuilder.Entity("backend.models.TestResult", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR [TestResultSequence]");
+
+                    SqlServerPropertyBuilderExtensions.UseSequence(b.Property<int>("Id"));
+
+                    b.Property<int>("TestType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TestResult");
+
+                    b.UseTpcMappingStrategy();
+                });
+
             modelBuilder.Entity("backend.models.UserModel", b =>
                 {
                     b.Property<int>("Id")
@@ -230,6 +256,81 @@ namespace backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("backend.models.ClinicalBloodTestResult", b =>
+                {
+                    b.HasBaseType("backend.models.TestResult");
+
+                    b.Property<double>("Basophils")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ColorIndex")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Eosinophils")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ErythrocyteSedimentation")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Hemoglobin")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Leukocytes")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Lymphocytes")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Monocytes")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Platelets")
+                        .HasColumnType("float");
+
+                    b.Property<double>("RedBloobCells")
+                        .HasColumnType("float");
+
+                    b.ToTable("ClinicalBloodTestResult", (string)null);
+                });
+
+            modelBuilder.Entity("backend.models.ClinicalUrineTestResult", b =>
+                {
+                    b.HasBaseType("backend.models.TestResult");
+
+                    b.Property<double>("Acidity")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("Bilirubin")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Density")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("Glucose")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("Leukocytes")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("Nitrites")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("Protien")
+                        .HasColumnType("float");
+
+                    b.Property<double>("RedBloobCells")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Urobilinogen")
+                        .HasColumnType("float");
+
+                    b.ToTable("ClinicalUrineTestResult", (string)null);
                 });
 
             modelBuilder.Entity("backend.models.Atributes.Patient", b =>
@@ -281,6 +382,17 @@ namespace backend.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("backend.models.TestResult", b =>
+                {
+                    b.HasOne("backend.models.UserModel", "User")
+                        .WithMany("TestResults")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("backend.models.Profile", b =>
                 {
                     b.Navigation("Passport");
@@ -295,6 +407,8 @@ namespace backend.Migrations
                     b.Navigation("ReferralsForTesting");
 
                     b.Navigation("Requests");
+
+                    b.Navigation("TestResults");
                 });
 #pragma warning restore 612, 618
         }

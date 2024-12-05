@@ -7,6 +7,7 @@ import { Terms } from './Terms.jsx';
 import { Requests } from './Requests.jsx';
 import { Refferals } from './Refferals.jsx';
 import { PersonalInfo } from './PersonalInfo.jsx';
+import { Tests } from './Tests.jsx';
 
 export const UsersProfile = () => {
     const [activeSection, setActiveSection] = useState('personalInfo');
@@ -135,6 +136,9 @@ export const UsersProfile = () => {
                     <Terms/>
                 )}
 
+                {activeSection === 'myTests' && (
+                    <Tests id={id}/>
+                )}
                 {activeSection === 'myReferrals' && (
                     <Refferals id={id}/>
                 )}

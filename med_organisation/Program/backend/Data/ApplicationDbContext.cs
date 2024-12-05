@@ -16,6 +16,8 @@ namespace backend.Data
         public DbSet<Request> Requests { get; set; }
         public DbSet<Settings> Settings { get; set; }
         public DbSet<ReferralForTesting> ReferralForTesting { get; set; }
+        public DbSet<ClinicalUrineTestResult> ClinicalUrineTestResults { get; set; } 
+        public DbSet<ClinicalBloodTestResult> ClinicalBloodTestResults { get; set; } 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Настройка связи между UserModel и Request (1:N)
@@ -28,6 +30,12 @@ namespace backend.Data
              modelBuilder.Entity<ReferralForTesting>()
                 .HasOne(r => r.User)       
                 .WithMany(u => u.ReferralsForTesting) 
+                .HasForeignKey(r => r.UserId) 
+                .OnDelete(DeleteBehavior.Cascade); 
+
+            modelBuilder.Entity<TestResult>()
+                .HasOne(r => r.User)       
+                .WithMany(u => u.TestResults) 
                 .HasForeignKey(r => r.UserId) 
                 .OnDelete(DeleteBehavior.Cascade); 
 
@@ -49,6 +57,9 @@ namespace backend.Data
                 .HasForeignKey<Patient>(pa => pa.Id)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<TestResult>().UseTpcMappingStrategy();
+            modelBuilder.Entity<ClinicalBloodTestResult>().ToTable("ClinicalBloodTestResult");
+            modelBuilder.Entity<ClinicalUrineTestResult>().ToTable("ClinicalUrineTestResult");
         }
     }
 }

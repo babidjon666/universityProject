@@ -27,5 +27,20 @@ namespace backend.Services
         {
             return await testRepository.GetMyClientsRepository(doctorId);
         }
+
+        public async Task CreateClinicalBloodTestService(int userId, ClinicalBloodTestResult testResult)
+        {
+            await testRepository.CreateClinicalBloodTestRepo(userId, testResult);
+        }
+
+        public async Task CreateClinicalUrineTestService(int userId, ClinicalUrineTestResult testResult)
+        {
+            await testRepository.CreateClinicalUrineTestRepo(userId, testResult);
+        }
+
+        public async Task<TestResultDTO> GetUserTestsService(int userId)
+        {
+            return await testRepository.GetUsersTests(userId);
+        }
     }
 }
