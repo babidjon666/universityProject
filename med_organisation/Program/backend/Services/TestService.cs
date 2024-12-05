@@ -42,5 +42,20 @@ namespace backend.Services
         {
             return await testRepository.GetUsersTests(userId);
         }
+
+        public async Task CreateBloodTestForHIVService(int userId, BloodTestForHIVResult testResult)
+        {
+            await testRepository.CreateBloodTestForHIVRepo(userId, testResult);
+        }
+
+        public async Task CreateBloodTestForSyphilisService(int userId, BloodTestForSyphilisResult testResult)
+        {
+            await testRepository.CreateBloodTestForSyphilisRepo(userId, testResult);
+        }
+
+        public async Task CreateUrineAnalysisForDrugsAndPsychotropicsService(int userId, UrineAnalysisForDrugsAndPsychotropicsResult testResult)
+        {
+            await testRepository.CreateUrineAnalysisForDrugsAndPsychotropicsRepo(userId, testResult);
+        }
     }
 }

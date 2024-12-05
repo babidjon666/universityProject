@@ -88,9 +88,24 @@ namespace backend.Repositories
                 .Where(c => c.UserId == userId)
                 .ToListAsync();
             
+            var BloodTestForHIVResults = await _context.BloodTestForHIVResults
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
+
+            var BloodTestForSyphilisResults = await _context.BloodTestForSyphilisResults
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
+            
+            var UrineAnalysisForDrugsAndPsychotropicsResults = await _context.UrineAnalysisForDrugsAndPsychotropicsResults
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
+
             var tests = new TestResultDTO{
                 ClinicalBloodTestResults = ClinicalBloodTests,
-                ClinicalUrineTestResults = ClinicalUrineTests
+                ClinicalUrineTestResults = ClinicalUrineTests,
+                BloodTestForHIVResults = BloodTestForHIVResults,
+                BloodTestForSyphilisResults = BloodTestForSyphilisResults,
+                UrineAnalysisForDrugsAndPsychotropicsResults = UrineAnalysisForDrugsAndPsychotropicsResults
             };
             return tests;
         }
@@ -121,6 +136,51 @@ namespace backend.Repositories
             testResult.User = user;
             testResult.TestType = enums.TestType.ClinicalUrineTests;
             _context.ClinicalUrineTestResults.Add(testResult);
+
+            await Save();
+        }
+
+        public async Task CreateBloodTestForHIVRepo(int userId, BloodTestForHIVResult testResult)   
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                throw new Exception("пользователь не найден в бд");
+            }
+            testResult.User = user;
+            testResult.TestType = enums.TestType.BloodTestForHIV;
+            _context.BloodTestForHIVResults.Add(testResult);
+
+            await Save();
+        }
+
+        public async Task CreateBloodTestForSyphilisRepo(int userId, BloodTestForSyphilisResult testResult)   
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                throw new Exception("пользователь не найден в бд");
+            }
+            testResult.User = user;
+            testResult.TestType = enums.TestType.BloodTestForSyphilis;
+            _context.BloodTestForSyphilisResults.Add(testResult);
+
+            await Save();
+        }
+
+        public async Task CreateUrineAnalysisForDrugsAndPsychotropicsRepo(int userId, UrineAnalysisForDrugsAndPsychotropicsResult testResult)   
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                throw new Exception("пользователь не найден в бд");
+            }
+            testResult.User = user;
+            testResult.TestType = enums.TestType.UrineTestForDrugs;
+            _context.UrineAnalysisForDrugsAndPsychotropicsResults.Add(testResult);
 
             await Save();
         }

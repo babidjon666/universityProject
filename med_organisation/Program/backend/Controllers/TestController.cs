@@ -114,5 +114,50 @@ namespace backend.Controllers
                 return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}"); 
             }
         }
+
+        [HttpPost("CreateHIVTest")]
+        public async Task<IActionResult> CreateHIVTest([FromBody]CreateHIVTestDTO testRequest)
+        {
+            var test = new BloodTestForHIVResult{
+                Result = testRequest.Result
+            };
+            try{
+                await testService.CreateBloodTestForHIVService(testRequest.UserId, test);
+                return Ok("CreateHIVTest создан");
+            }catch(Exception ex){
+                return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}"); 
+            }
+        }
+
+        [HttpPost("CreateSyphilisTest")]
+        public async Task<IActionResult> CreateSyphilisTest([FromBody]CreateSyphilisTestDTO testRequest)
+        {
+            var test = new BloodTestForSyphilisResult{
+                Result = testRequest.Result
+            };
+            try{
+                await testService.CreateBloodTestForSyphilisService(testRequest.UserId, test);
+                return Ok("CreateHIVTest создан");
+            }catch(Exception ex){
+                return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}"); 
+            }
+        }
+
+        [HttpPost("CreateDrugsTest")]
+        public async Task<IActionResult> CreateDrugsTest([FromBody]CreateDrugTestDTO testRequest)
+        {
+            var test = new UrineAnalysisForDrugsAndPsychotropicsResult{
+                NicotinAndMetabolites = testRequest.NicotinAndMetabolites,
+                Alcohol = testRequest.Alcohol,
+                PsychoactiveSubstances = testRequest.PsychoactiveSubstances,
+                NarcoticSubctances = testRequest.NarcoticSubctances
+            };
+            try{
+                await testService.CreateUrineAnalysisForDrugsAndPsychotropicsService(testRequest.UserId, test);
+                return Ok("CreateDrugsTest создан");
+            }catch(Exception ex){
+                return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}"); 
+            }
+        }
     }
 }

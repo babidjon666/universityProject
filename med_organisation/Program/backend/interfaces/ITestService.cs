@@ -10,5 +10,8 @@ namespace backend.interfaces
         Task CreateClinicalBloodTestService(int userId, ClinicalBloodTestResult testResult);
         Task CreateClinicalUrineTestService(int userId, ClinicalUrineTestResult testResult);
         Task<TestResultDTO> GetUserTestsService(int userId);
+        Task CreateBloodTestForHIVService(int userId, BloodTestForHIVResult testResult);
+        Task CreateBloodTestForSyphilisService(int userId, BloodTestForSyphilisResult testResult);
+        Task CreateUrineAnalysisForDrugsAndPsychotropicsService(int userId, UrineAnalysisForDrugsAndPsychotropicsResult testResult);
     }
 }

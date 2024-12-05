@@ -18,6 +18,9 @@ namespace backend.Data
         public DbSet<ReferralForTesting> ReferralForTesting { get; set; }
         public DbSet<ClinicalUrineTestResult> ClinicalUrineTestResults { get; set; } 
         public DbSet<ClinicalBloodTestResult> ClinicalBloodTestResults { get; set; } 
+        public DbSet<BloodTestForHIVResult> BloodTestForHIVResults { get; set; } 
+        public DbSet<BloodTestForSyphilisResult> BloodTestForSyphilisResults { get; set; } 
+        public DbSet<UrineAnalysisForDrugsAndPsychotropicsResult> UrineAnalysisForDrugsAndPsychotropicsResults { get; set; } 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Настройка связи между UserModel и Request (1:N)
@@ -60,6 +63,9 @@ namespace backend.Data
             modelBuilder.Entity<TestResult>().UseTpcMappingStrategy();
             modelBuilder.Entity<ClinicalBloodTestResult>().ToTable("ClinicalBloodTestResult");
             modelBuilder.Entity<ClinicalUrineTestResult>().ToTable("ClinicalUrineTestResult");
+            modelBuilder.Entity<BloodTestForHIVResult>().ToTable("BloodTestForHIVResult");
+            modelBuilder.Entity<BloodTestForSyphilisResult>().ToTable("BloodTestForSyphilisResult");
+            modelBuilder.Entity<UrineAnalysisForDrugsAndPsychotropicsResult>().ToTable("UrineAnalysisForDrugsAndPsychotropicsResult");
         }
     }
 }

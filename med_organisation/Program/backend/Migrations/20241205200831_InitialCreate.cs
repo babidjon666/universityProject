@@ -46,6 +46,46 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BloodTestForHIVResult",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR [TestResultSequence]"),
+                    TestType = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Result = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BloodTestForHIVResult", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BloodTestForHIVResult_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BloodTestForSyphilisResult",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR [TestResultSequence]"),
+                    TestType = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Result = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BloodTestForSyphilisResult", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BloodTestForSyphilisResult_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ClinicalBloodTestResult",
                 columns: table => new
                 {
@@ -185,6 +225,29 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UrineAnalysisForDrugsAndPsychotropicsResult",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR [TestResultSequence]"),
+                    TestType = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    NicotinAndMetabolites = table.Column<bool>(type: "bit", nullable: false),
+                    Alcohol = table.Column<bool>(type: "bit", nullable: false),
+                    PsychoactiveSubstances = table.Column<bool>(type: "bit", nullable: false),
+                    NarcoticSubctances = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UrineAnalysisForDrugsAndPsychotropicsResult", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UrineAnalysisForDrugsAndPsychotropicsResult_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Passports",
                 columns: table => new
                 {
@@ -237,6 +300,16 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_BloodTestForHIVResult_UserId",
+                table: "BloodTestForHIVResult",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BloodTestForSyphilisResult_UserId",
+                table: "BloodTestForSyphilisResult",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ClinicalBloodTestResult_UserId",
                 table: "ClinicalBloodTestResult",
                 column: "UserId");
@@ -260,11 +333,22 @@ namespace backend.Migrations
                 name: "IX_TestResult_UserId",
                 table: "TestResult",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UrineAnalysisForDrugsAndPsychotropicsResult_UserId",
+                table: "UrineAnalysisForDrugsAndPsychotropicsResult",
+                column: "UserId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "BloodTestForHIVResult");
+
+            migrationBuilder.DropTable(
+                name: "BloodTestForSyphilisResult");
+
             migrationBuilder.DropTable(
                 name: "ClinicalBloodTestResult");
 
@@ -288,6 +372,9 @@ namespace backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "TestResult");
+
+            migrationBuilder.DropTable(
+                name: "UrineAnalysisForDrugsAndPsychotropicsResult");
 
             migrationBuilder.DropTable(
                 name: "Profiles");

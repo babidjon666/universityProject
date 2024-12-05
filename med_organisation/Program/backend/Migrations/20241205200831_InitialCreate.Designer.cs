@@ -12,7 +12,7 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241205154308_InitialCreate")]
+    [Migration("20241205200831_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -258,6 +258,26 @@ namespace backend.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("backend.models.BloodTestForHIVResult", b =>
+                {
+                    b.HasBaseType("backend.models.TestResult");
+
+                    b.Property<bool>("Result")
+                        .HasColumnType("bit");
+
+                    b.ToTable("BloodTestForHIVResult", (string)null);
+                });
+
+            modelBuilder.Entity("backend.models.BloodTestForSyphilisResult", b =>
+                {
+                    b.HasBaseType("backend.models.TestResult");
+
+                    b.Property<bool>("Result")
+                        .HasColumnType("bit");
+
+                    b.ToTable("BloodTestForSyphilisResult", (string)null);
+                });
+
             modelBuilder.Entity("backend.models.ClinicalBloodTestResult", b =>
                 {
                     b.HasBaseType("backend.models.TestResult");
@@ -331,6 +351,25 @@ namespace backend.Migrations
                         .HasColumnType("float");
 
                     b.ToTable("ClinicalUrineTestResult", (string)null);
+                });
+
+            modelBuilder.Entity("backend.models.UrineAnalysisForDrugsAndPsychotropicsResult", b =>
+                {
+                    b.HasBaseType("backend.models.TestResult");
+
+                    b.Property<bool>("Alcohol")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("NarcoticSubctances")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("NicotinAndMetabolites")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PsychoactiveSubstances")
+                        .HasColumnType("bit");
+
+                    b.ToTable("UrineAnalysisForDrugsAndPsychotropicsResult", (string)null);
                 });
 
             modelBuilder.Entity("backend.models.Atributes.Patient", b =>
