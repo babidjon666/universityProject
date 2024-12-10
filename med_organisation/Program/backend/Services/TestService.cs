@@ -57,5 +57,10 @@ namespace backend.Services
         {
             await testRepository.CreateUrineAnalysisForDrugsAndPsychotropicsRepo(userId, testResult);
         }
+
+        public async Task<IEnumerable<UserModel>> GetUsersWithReferralsService()
+        {
+            return await testRepository.GetUsersWithReferralsRepo();
+        }
     }
 }

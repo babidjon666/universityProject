@@ -13,5 +13,6 @@ namespace backend.interfaces
         Task CreateBloodTestForHIVRepo(int userId, BloodTestForHIVResult testResult);
         Task CreateBloodTestForSyphilisRepo(int userId, BloodTestForSyphilisResult testResult);
         Task CreateUrineAnalysisForDrugsAndPsychotropicsRepo(int userId, UrineAnalysisForDrugsAndPsychotropicsResult testResult);
+        Task<IEnumerable<UserModel>> GetUsersWithReferralsRepo();
     }
 }

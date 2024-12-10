@@ -44,6 +44,9 @@ export const Auth = () => {
             if (role === "Client") {
                 navigate(`/userProfile/${id}`); 
             }
+            if (role === "LaboratoryAssistent"){
+                navigate(`/laborantProfile/${id}`); 
+            }
             message.success("Успешный вход!");
         } catch (error) {
             message.warning("Неправильный логин или пароль!");

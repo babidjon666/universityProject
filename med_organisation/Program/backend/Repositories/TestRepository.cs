@@ -184,5 +184,14 @@ namespace backend.Repositories
 
             await Save();
         }
+
+        public async Task<IEnumerable<UserModel>> GetUsersWithReferralsRepo()
+        {
+            var users = await _context.Users
+                .Where(u => u.ReferralsForTesting.Count > 0 && u.ReferralsForTesting!=null)
+                .ToListAsync();
+
+            return users;
+        }
     }
 }

@@ -159,5 +159,16 @@ namespace backend.Controllers
                 return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}"); 
             }
         }
+
+        [HttpGet("GetUsersWithReferrals")]
+        public async Task<ActionResult<IEnumerable<UserModel>>> GetUsersWithReferrals()
+        {
+            try{
+                var users = await testService.GetUsersWithReferralsService();
+                return Ok(users);
+            }catch(Exception ex){
+                return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}"); 
+            }
+        }
     }
 }
