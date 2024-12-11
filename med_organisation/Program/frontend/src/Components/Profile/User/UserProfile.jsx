@@ -8,9 +8,10 @@ import { Requests } from './Requests.jsx';
 import { Refferals } from './Refferals.jsx';
 import { PersonalInfo } from './PersonalInfo.jsx';
 import { Tests } from './Tests.jsx';
+import { Certificates } from './Certificates.jsx';
 
 export const UsersProfile = () => {
-    const [activeSection, setActiveSection] = useState('personalInfo');
+    const [activeSection, setActiveSection] = useState('myCertificates');
     const [profile, setProfile] = useState(null);
 
     const { id } = useParams();
@@ -117,6 +118,7 @@ export const UsersProfile = () => {
                 mode="horizontal"
                 style={{ marginBottom: '20px' }}
             >
+                <Menu.Item key="myCertificates">My Certificates</Menu.Item>
                 <Menu.Item key="personalInfo">Personal Info</Menu.Item>
                 <Menu.Item key="terms">Terms</Menu.Item>
                 <Menu.Item key="myTests">My Tests</Menu.Item>
@@ -145,6 +147,9 @@ export const UsersProfile = () => {
 
                 {activeSection === 'myRequests' && (
                     <Requests id={id}/>
+                )}
+                {activeSection === 'myCertificates' && (
+                    <Certificates id={id}/>
                 )}
             </div>
         </div>

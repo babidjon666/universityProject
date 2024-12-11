@@ -8,7 +8,7 @@ export const Terms = () => {
 
     useEffect(() => {
         fetchSettings();
-    },);
+    },[]);
 
     const fetchSettings = async () => {
         try {

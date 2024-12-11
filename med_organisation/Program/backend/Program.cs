@@ -4,9 +4,11 @@ using backend.interfaces;
 using backend.Repositories;
 using backend.Services;
 using Microsoft.EntityFrameworkCore;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
+QuestPDF.Settings.License = LicenseType.Community;
 // Добавляем сервися в контейнер
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

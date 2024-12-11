@@ -42,5 +42,18 @@ namespace backend.Controllers
                 return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}"); 
             }
         }
+
+        [HttpGet("DownloadCertificate")]
+        public async Task<IActionResult> DownloadCertificate(int certificateId)
+        {
+            try{
+                var pdf = await certificateService.GeneratePDFService(certificateId);
+                return File(pdf, "application/pdf", $"Certificate_{certificateId}.pdf");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}");
+            }
+        }
     }
 }

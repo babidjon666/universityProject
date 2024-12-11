@@ -139,3 +139,38 @@ export const getTests = async (userId) => {
         throw error; 
     }
 };
+
+// функция для получения справок
+export const getCertificates = async (userId) => {
+    try {
+        const response = await axios.get(`http://localhost:5288/api/Certificate/GetUsersCertificate?userId=${userId}`);
+        return response.data; 
+    } catch (error) {
+        console.error("Login error:", error);
+        throw error; 
+    }
+};
+
+// Функция для скачивания справки
+export const downloadCertificate = async (certificateId) => {
+    try {
+        const response = await axios.get(
+            `http://localhost:5288/api/Certificate/DownloadCertificate?certificateId=${certificateId}`,
+            {
+                responseType: 'blob', 
+            }
+        );
+
+        // Создаем временную ссылку для скачивания
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `Certificate_${certificateId}.pdf`); 
+        document.body.appendChild(link);
+        link.click();
+        link.remove(); // Удаляем ссылку после скачивания
+    } catch (error) {
+        console.error("Error downloading certificate:", error);
+        throw error;
+    }
+};

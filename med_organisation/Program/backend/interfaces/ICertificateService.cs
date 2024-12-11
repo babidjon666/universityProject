@@ -10,5 +10,6 @@ namespace backend.interfaces
     {
         Task CreateCertificateService(int userId, DateTime date, int doctorId);
         Task<IEnumerable<Certificate>> GetUserCertificatesService(int userId);
+        Task<byte[]> GeneratePDFService(int certificateId);
     }
 }

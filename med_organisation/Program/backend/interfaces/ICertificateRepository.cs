@@ -10,5 +10,7 @@ namespace backend.interfaces
     {
         Task CreateCertificateAtDB(Certificate certificate);
         Task<IEnumerable<Certificate>> GetUsersCertificatesFromDB(int userId);
+        Task<UserModel> GetUserFromDB(int userId);
+        Task<Certificate> GetCertificateFromDb(int certificateId);
     }
 }
