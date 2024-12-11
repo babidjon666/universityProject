@@ -204,7 +204,51 @@ button {
 
 
 
-/* Эффект наведения на секцию */
-.section-container:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+.custom-modal {
+    max-width: 800px;
+    width: 100%;
+}
+
+
+.custom-modal .ant-modal-title {
+    color: #1890ff;
+    font-size: 1.5rem;
+}
+
+.custom-modal .ant-modal-body {
+    padding: 24px;
+    font-size: 1rem;
+}
+
+/* Контейнер для горизонтального расположения секций */
+.document-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Пространство между секциями */
+}
+
+/* Стили для секций документов */
+.document-section {
+    flex: 1; /* Равномерное распределение пространства */
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.document-section h3 {
+    font-size: 1.25rem;
+    color: #1890ff;
+    margin-bottom: 10px;
+}
+
+.document-details p {
+    margin: 8px 0;
+    font-size: 1rem;
+}
+
+.document-details strong {
+    color: #333;
+    font-weight: 600;
 }

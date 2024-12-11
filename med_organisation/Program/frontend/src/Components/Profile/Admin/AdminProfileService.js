@@ -82,3 +82,14 @@ export const createSetting = async (deadlines, terms) => {
         throw error; 
     }
 };
+
+// функция для получения документов пользователя
+export const getDocuments = async (userId) => {
+    try {
+        const response = await axios.get(`http://localhost:5288/api/Profile/GetProfile?userId=${userId}`);
+        return response.data; 
+    } catch (error) {
+        console.error("Login error:", error);
+        throw error; 
+    }
+};

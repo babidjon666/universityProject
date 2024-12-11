@@ -3,6 +3,7 @@ using backend.interfaces;
 using backend.models;
 using backend.models.Atributes;
 using backend.models.Attributes;
+using backend.models.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repositories
