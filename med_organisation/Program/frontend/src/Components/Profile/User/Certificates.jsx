@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getCertificates, formatDate, downloadCertificate } from "./UserProfileService";
 import { List, Button } from 'antd';
-import { ToolOutlined, DownloadOutlined } from '@ant-design/icons';
+import { FileTextOutlined, DownloadOutlined } from '@ant-design/icons';
 
 export const Certificates = ({ id }) => {
     const [certificates, setCertificates] = useState([]);
@@ -41,7 +41,7 @@ export const Certificates = ({ id }) => {
                         }}
                     >
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <ToolOutlined
+                            <FileTextOutlined
                                 style={{ fontSize: '40px', color: '#1890ff', marginRight: '20px' }}
                             />
                             <div style={{ textAlign: 'left' }}>
