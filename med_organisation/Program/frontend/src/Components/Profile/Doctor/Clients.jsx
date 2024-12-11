@@ -4,11 +4,13 @@ import { getClients } from "./DoctorService";
 
 import CheckTests from "./CheckTests"; // Импортируем новый компонент
 import IssueReferral from "./IssueReferral";
+import CreateCertificate from "./CreateCertificate";
 
 export const Clients = ({ id }) => {
     const [clients, setClients] = useState([]);
     const [isTestsModalVisible, setIsTestsModalVisible] = useState(false);
     const [isReferralModalVisible, setReferralIsModalVisible] = useState(false);
+    const [isCertificateModalVisible, setCertificateIsModalVisible] = useState(false);
     const [selectedClientId, setSelectedClientId] = useState(null);
 
     useEffect(() => {
@@ -42,6 +44,16 @@ export const Clients = ({ id }) => {
 
     const closeReferralModal = () => {
         setReferralIsModalVisible(false);
+        setSelectedClientId(null);
+    };
+
+    const showCertificateModal = (clientId) => {
+        setSelectedClientId(clientId);
+        setCertificateIsModalVisible(true);
+    };
+
+    const closeCertificateModal = () => {
+        setCertificateIsModalVisible(false);
         setSelectedClientId(null);
     };
     return (
@@ -86,7 +98,11 @@ export const Clients = ({ id }) => {
                                     >
                                         Check Tests
                                     </Button>
-                                    <Button type="primary" style={{ marginRight: "10px" }}>
+                                    <Button 
+                                    type="primary" 
+                                    style={{ marginRight: "10px" }}
+                                    onClick={() => showCertificateModal(item.id)}
+                                    >
                                         Issue Certificate
                                     </Button>
                                 </div>
@@ -105,6 +121,12 @@ export const Clients = ({ id }) => {
                 clientId={selectedClientId}
                 visible={isReferralModalVisible}
                 onClose={closeReferralModal}
+            />
+            <CreateCertificate
+                clientId={selectedClientId}
+                visible={isCertificateModalVisible}
+                onClose={closeCertificateModal}
+                doctorId={id}
             />
         </div>
     );

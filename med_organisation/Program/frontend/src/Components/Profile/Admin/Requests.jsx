@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Avatar, List, Modal, Select, message } from 'antd';
 import { getAllWaitingRequests, getFreeDoctors, setDoctorSerivce, cancelRequest } from './AdminProfileService.js';
+import { Patient } from "../User/Patient.jsx"
 
 const Requests = () => {
     const [requests, setRequests] = useState([]);
@@ -100,6 +101,13 @@ const Requests = () => {
                                 <div style={{ fontSize: '14px', color: '#777' }}>
                                     <p><strong>Appointment date:</strong> {new Date(item.date).toLocaleDateString()}</p>
                                     <p><strong>Appointment time:</strong> {item.time}</p>
+                                    <Button
+                                        type="primary"
+                                        style={{ alignSelf: 'center' }}
+                                        onClick={() => console.log(123)}
+                                    >
+                                        Check Documents
+                                    </Button>
                                 </div>
                             </div>
                         </div>

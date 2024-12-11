@@ -24,3 +24,17 @@ export const createReferral = async (userId, testType, date) => {
         throw error; 
     }
 };
+
+export const createCertificate = async (dateTime, userId, doctorId) => {
+    try {
+        const response = await axios.post("http://localhost:5288/api/Certificate/CreateCertificate", {
+            dateTime: dateTime,
+            userId: userId,
+            doctorId: doctorId,
+        });
+        return response.data; 
+    } catch (error) {
+        console.error("Referral error:", error);
+        throw error; 
+    }
+};
