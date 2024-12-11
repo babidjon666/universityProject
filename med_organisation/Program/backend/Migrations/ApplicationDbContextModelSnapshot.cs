@@ -109,6 +109,30 @@ namespace backend.Migrations
                     b.ToTable("Passports");
                 });
 
+            modelBuilder.Entity("backend.models.Certificate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Certificates");
+                });
+
             modelBuilder.Entity("backend.models.Profile", b =>
                 {
                     b.Property<int>("Id")
@@ -387,6 +411,17 @@ namespace backend.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("backend.models.Certificate", b =>
+                {
+                    b.HasOne("backend.models.UserModel", "User")
+                        .WithMany("Certificates")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("backend.models.Profile", b =>
                 {
                     b.HasOne("backend.models.UserModel", null)
@@ -438,6 +473,8 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.models.UserModel", b =>
                 {
+                    b.Navigation("Certificates");
+
                     b.Navigation("Profile");
 
                     b.Navigation("ReferralsForTesting");

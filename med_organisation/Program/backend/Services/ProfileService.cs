@@ -16,23 +16,32 @@ namespace backend.Services
 
         public async Task<UserModel> GetProfileService(int userId)
         {
-            var dbUser = await profileRepository.GetUserFromDataBase(userId);
-
-            if (dbUser == null)
+            if (userId < 0)
             {
-                throw new Exception("пользователь не найден");
+                throw new Exception("Пользователя с отрицательным id не существует");
             }
 
+            var dbUser = await profileRepository.GetUserFromDataBase(userId);
             return dbUser;
         }
 
         public async Task EditPatientService(int oldPatientId, Patient newPatient)
         {
+            if (oldPatientId < 0 || newPatient == null)
+            {
+                throw new Exception("Ошибка входных данных в сервисе");
+            }
+
             await profileRepository.EditPatientInDataBase(oldPatientId, newPatient);
         }
 
         public async Task EditPassportService(int oldPassportId, Passport newPassport)
         {
+            if (oldPassportId < 0 || newPassport == null)
+            {
+                throw new Exception("Ошибка входных данных в сервисе");
+            }
+
             await profileRepository.EditPassportInDataBase(oldPassportId, newPassport);
         }
     }

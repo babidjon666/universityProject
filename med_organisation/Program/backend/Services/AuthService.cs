@@ -17,7 +17,7 @@ namespace backend.Services
         {
             if (await authRepository.CheckName(user.Login)) { throw new Exception("Логин уже занят!"); }
 
-            var hashedPassword = HashPassword.GetHash(user.Password); // хеширование пароля
+            var hashedPassword = HashPassword.GetHash(user.Password);
             user.Password = hashedPassword;
             
             await authRepository.AddUserToDataBase(user);

@@ -21,12 +21,19 @@ namespace backend.Data
         public DbSet<BloodTestForHIVResult> BloodTestForHIVResults { get; set; } 
         public DbSet<BloodTestForSyphilisResult> BloodTestForSyphilisResults { get; set; } 
         public DbSet<UrineAnalysisForDrugsAndPsychotropicsResult> UrineAnalysisForDrugsAndPsychotropicsResults { get; set; } 
+        public DbSet<Certificate> Certificates { get; set; } 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Настройка связи между UserModel и Request (1:N)
             modelBuilder.Entity<Request>()
                 .HasOne(r => r.User)       
                 .WithMany(u => u.Requests) 
+                .HasForeignKey(r => r.UserId) 
+                .OnDelete(DeleteBehavior.Cascade); 
+
+            modelBuilder.Entity<Certificate>()
+                .HasOne(r => r.User)       
+                .WithMany(u => u.Certificates) 
                 .HasForeignKey(r => r.UserId) 
                 .OnDelete(DeleteBehavior.Cascade); 
 

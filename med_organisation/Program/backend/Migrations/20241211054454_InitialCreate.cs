@@ -86,6 +86,27 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Certificates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    DoctorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Certificates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Certificates_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ClinicalBloodTestResult",
                 columns: table => new
                 {
@@ -310,6 +331,11 @@ namespace backend.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Certificates_UserId",
+                table: "Certificates",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ClinicalBloodTestResult_UserId",
                 table: "ClinicalBloodTestResult",
                 column: "UserId");
@@ -348,6 +374,9 @@ namespace backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "BloodTestForSyphilisResult");
+
+            migrationBuilder.DropTable(
+                name: "Certificates");
 
             migrationBuilder.DropTable(
                 name: "ClinicalBloodTestResult");

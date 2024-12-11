@@ -14,5 +14,6 @@ namespace backend.models
         public List<Request> Requests { get; set; } = new List<Request>();
         public List<ReferralForTesting> ReferralsForTesting { get; set; } = new List<ReferralForTesting>();
         public List<TestResult> TestResults { get; set; } = new List<TestResult>();
+        public List<Certificate> Certificates { get; set; } = new List<Certificate>();
     }
 }

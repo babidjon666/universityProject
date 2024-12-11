@@ -1,0 +1,46 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using backend.interfaces;
+using backend.models;
+using backend.models.DTO;
+using Microsoft.AspNetCore.Mvc;
+
+namespace backend.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class CertificateController: ControllerBase
+    {
+        private readonly ICertificateService certificateService;
+
+        public CertificateController(ICertificateService certificateService)
+        {
+            this.certificateService = certificateService;
+        }
+
+        [HttpPost("CreateCertificate")]
+        public async Task<IActionResult> CreateCertificate([FromBody]CreateCertificateDTO createCertificateRequest)
+        {
+            try{
+                await certificateService.CreateCertificateService(createCertificateRequest.UserId, createCertificateRequest.DateTime, createCertificateRequest.DoctorId);
+
+                return Ok("справка создана");
+            }catch(Exception ex){
+                return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}"); 
+            }
+        }
+
+        [HttpGet("GetUsersCertificate")]
+        public async Task<ActionResult<IEnumerable<Certificate>>> GetUsersCertificate(int userId)
+        {
+            try{
+                var certificates = await certificateService.GetUserCertificatesService(userId);
+                return Ok(certificates);
+            }catch(Exception ex){
+                return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}"); 
+            }
+        }
+    }
+}
