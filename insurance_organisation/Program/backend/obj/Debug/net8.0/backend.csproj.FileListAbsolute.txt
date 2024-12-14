@@ -32,3 +32,6 @@
 /Users/markpolakov/Desktop/universityProject/insurance_organisation/Program/backend/obj/Debug/net8.0/backend.pdb
 /Users/markpolakov/Desktop/universityProject/insurance_organisation/Program/backend/obj/Debug/net8.0/backend.genruntimeconfig.cache
 /Users/markpolakov/Desktop/universityProject/insurance_organisation/Program/backend/obj/Debug/net8.0/ref/backend.dll
+/Users/markpolakov/Desktop/universityProject/insurance_organisation/Program/backend/bin/Debug/net8.0/backend.staticwebassets.endpoints.json
+/Users/markpolakov/Desktop/universityProject/insurance_organisation/Program/backend/obj/Debug/net8.0/staticwebassets.build.endpoints.json
+/Users/markpolakov/Desktop/universityProject/insurance_organisation/Program/backend/obj/Debug/net8.0/staticwebassets/msbuild.backend.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
