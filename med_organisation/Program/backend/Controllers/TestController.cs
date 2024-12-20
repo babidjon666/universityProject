@@ -1,8 +1,6 @@
 using backend.interfaces;
 using backend.models;
-using backend.models.Atributes;
-using backend.models.Attributes;
-using backend.models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -12,12 +10,12 @@ namespace backend.Controllers
     public class TestController: ControllerBase
     {
         private readonly ITestService testService;
-
         public TestController(ITestService testService)
         {
             this.testService = testService;
         }
 
+        [Authorize(Roles = "Doctor")]
         [HttpPost("CreateReferral")]
         public async Task<IActionResult> CreateReferral(CreateReferralDTO createReferraRequest)
         {
@@ -33,6 +31,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Client,LaboratoryAssistent")]
         [HttpGet("GetReferralForTesting")]
         public async Task<ActionResult<IEnumerable<ReferralForTesting>>> GetReferralForTesting(int userId)
         {
@@ -45,6 +44,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Doctor,LaboratoryAssistent")]
         [HttpGet("GetMyClients")]
         public async Task<ActionResult<IEnumerable<UserModel>>> GetMyClients(int doctorId)
         {
@@ -57,6 +57,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Doctor,LaboratoryAssistent,Client")]
         [HttpGet("GetUsersTests")]
         public async Task<ActionResult<TestResultDTO>> GetUsersTests(int userId)
         {
@@ -69,6 +70,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "LaboratoryAssistent")]
         [HttpPost("CreateClinicalBloodTest")]
         public async Task<IActionResult> CreateClinicalBloodTest([FromBody] CreateClinicalBloodTestDTO testRequest)
         {
@@ -92,6 +94,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "LaboratoryAssistent")]
         [HttpPost("CreateClinicalUrineTest")]
         public async Task<IActionResult> CreateClinicalUrineTest([FromBody] CreateClinicalUrineTestDTO testRequest)
         {
@@ -115,6 +118,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "LaboratoryAssistent")]
         [HttpPost("CreateHIVTest")]
         public async Task<IActionResult> CreateHIVTest([FromBody]CreateHIVTestDTO testRequest)
         {
@@ -129,6 +133,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "LaboratoryAssistent")]
         [HttpPost("CreateSyphilisTest")]
         public async Task<IActionResult> CreateSyphilisTest([FromBody]CreateSyphilisTestDTO testRequest)
         {
@@ -143,6 +148,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "LaboratoryAssistent")]
         [HttpPost("CreateDrugsTest")]
         public async Task<IActionResult> CreateDrugsTest([FromBody]CreateDrugTestDTO testRequest)
         {
@@ -160,6 +166,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "LaboratoryAssistent")]
         [HttpGet("GetUsersWithReferrals")]
         public async Task<ActionResult<IEnumerable<UserModel>>> GetUsersWithReferrals()
         {

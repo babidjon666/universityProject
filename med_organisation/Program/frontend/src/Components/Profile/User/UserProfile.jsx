@@ -97,19 +97,31 @@ export const UsersProfile = () => {
         });
     };
 
+    if (!profile){
+        return<div>Loading...</div>
+    }
+    
     return (
         <div className="dashboard-container">
             <div className="profile-header">
                 <Avatar
                     src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${id}`}
-                    size={100} 
+                    size={100}
                     style={{
                         marginRight: '16px',
                         border: '2px solid #f0f0f0',
-                        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                        boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+                        transition: 'transform 0.3s ease',
                     }}
+                    className="profile-avatar"
                 />
-                <h2>My Profile</h2>
+                <div className="profile-info">
+                    <h2 className="profile-title">My Profile</h2>
+                    <div className="profile-details">
+                        <h3 className="profile-name">Name: {profile.name}</h3>
+                        <h3 className="profile-surname">Surname: {profile.surname}</h3>
+                    </div>
+                </div>
             </div>
 
             <Menu
@@ -128,7 +140,7 @@ export const UsersProfile = () => {
                     Logout
                 </Menu.Item>
             </Menu>
-
+            
             <div className="dashboard-content">
                 {activeSection === 'personalInfo' && profile && (
                     <PersonalInfo profile={profile} patient={patient} passport={passport} fetchProfile={fetchProfile}/>

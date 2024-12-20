@@ -3,7 +3,19 @@ import axios from "axios";
 // функция для получения всех заявок, которые в ожидании
 export const getAllWaitingRequests = async () => {
     try {
-        const response = await axios.get(`http://localhost:5288/api/Request/GetAllWaitingRequests`);
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+        
+        const response = await axios.get(`http://localhost:5288/api/Request/GetAllWaitingRequests`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                },
+            }
+        );
         return response.data; 
     } catch (error) {
         console.error("Login error:", error);
@@ -14,7 +26,19 @@ export const getAllWaitingRequests = async () => {
 // функция для получения всех свободных докторов
 export const getFreeDoctors = async (requestId) => {
     try {
-        const response = await axios.get(`http://localhost:5288/api/Request/GetFreeDoctors?requestId=${requestId}`);
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
+        const response = await axios.get(`http://localhost:5288/api/Request/GetFreeDoctors?requestId=${requestId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                },
+            }
+        );
         return response.data; 
     } catch (error) {
         console.error("Login error:", error);
@@ -25,10 +49,22 @@ export const getFreeDoctors = async (requestId) => {
 // функция для установки доктора
 export const setDoctorSerivce = async (doctorId, requestId) => {
     try {
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
         const response = await axios.post("http://localhost:5288/api/Request/SetDoctor", {
             doctorId: doctorId,
             requestId: requestId,
-        });
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`, 
+            },
+        }
+    );
         return response.data; 
     } catch (error) {
         console.error("Patient error:", error);
@@ -39,7 +75,20 @@ export const setDoctorSerivce = async (doctorId, requestId) => {
 // функция для отмены заяявки
 export const cancelRequest = async (requestId) => {
     try {
-        const response = await axios.put(`http://localhost:5288/api/Request/CancelRequest?requestId=${requestId}`);
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
+        const response = await axios.put(`http://localhost:5288/api/Request/CancelRequest?requestId=${requestId}`,
+            null,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                },
+            }
+        );
         return response.data; 
     } catch (error) {
         console.error("Patient error:", error);
@@ -50,7 +99,19 @@ export const cancelRequest = async (requestId) => {
 // функция для получения настроек
 export const getSettings = async () => {
     try {
-        const response = await axios.get(`http://localhost:5288/api/Settings/GetAllSettings`);
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
+        const response = await axios.get(`http://localhost:5288/api/Settings/GetAllSettings`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                },
+            }
+        );
         return response.data; 
     } catch (error) {
         console.error("Patient error:", error);
@@ -61,7 +122,19 @@ export const getSettings = async () => {
 // функция для удаления настроек
 export const deleteSetting = async (settingId) => {
     try {
-        const response = await axios.delete(`http://localhost:5288/api/Settings/DeleteSettings?settingId=${settingId}`);
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
+        const response = await axios.delete(`http://localhost:5288/api/Settings/DeleteSettings?settingId=${settingId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                },
+            }
+        );
         return response.data; 
     } catch (error) {
         console.error("Patient error:", error);
@@ -72,10 +145,22 @@ export const deleteSetting = async (settingId) => {
 // функция для добавления настроек
 export const createSetting = async (deadlines, terms) => {
     try {
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
         const response = await axios.post("http://localhost:5288/api/Settings/CreateSettings", {
             deadlines: deadlines,
             terms: terms,
-        });
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`, 
+            },
+        }
+    );
         return response.data; 
     } catch (error) {
         console.error("Patient error:", error);
@@ -86,7 +171,19 @@ export const createSetting = async (deadlines, terms) => {
 // функция для получения документов пользователя
 export const getDocuments = async (userId) => {
     try {
-        const response = await axios.get(`http://localhost:5288/api/Profile/GetProfile?userId=${userId}`);
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
+        const response = await axios.get(`http://localhost:5288/api/Profile/GetProfile?userId=${userId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                },
+            }
+        );
         return response.data; 
     } catch (error) {
         console.error("Login error:", error);

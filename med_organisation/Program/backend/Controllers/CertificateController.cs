@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using backend.interfaces;
 using backend.models;
 using backend.models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -20,6 +17,7 @@ namespace backend.Controllers
             this.certificateService = certificateService;
         }
 
+        [Authorize(Roles = "Doctor")]
         [HttpPost("CreateCertificate")]
         public async Task<IActionResult> CreateCertificate([FromBody]CreateCertificateDTO createCertificateRequest)
         {
@@ -32,6 +30,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Client")]
         [HttpGet("GetUsersCertificate")]
         public async Task<ActionResult<IEnumerable<Certificate>>> GetUsersCertificate(int userId)
         {
@@ -43,6 +42,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Client")]
         [HttpGet("DownloadCertificate")]
         public async Task<IActionResult> DownloadCertificate(int certificateId)
         {

@@ -3,6 +3,7 @@ using backend.models;
 using backend.models.Atributes;
 using backend.models.Attributes;
 using backend.models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -18,6 +19,7 @@ namespace backend.Controllers
             this.settingsService = settingsService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("CreateSettings")]
         public async Task<IActionResult> CreateSettings([FromBody]CreateSettingsDTO settingsRequest)
         {
@@ -35,6 +37,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("DeleteSettings")]
         public async Task<IActionResult> DeleteSettings(int settingId)
         {
@@ -47,6 +50,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Client")]
         [HttpGet("GetAllSettings")]
         public async Task<ActionResult<IEnumerable<Settings>>> GetAllSettings()
         {

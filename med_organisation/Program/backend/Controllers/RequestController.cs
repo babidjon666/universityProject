@@ -1,6 +1,7 @@
 using backend.interfaces;
 using backend.models;
 using backend.models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -15,6 +16,8 @@ namespace backend.Controllers
         {
             this.requestService = requestService;
         }
+
+        [Authorize(Roles = "Client")]
         [HttpPost("CreateRequest")]
         public async Task<IActionResult> CreateRequest([FromBody]CreateRequestDTO createRequestRequest)
         {
@@ -40,6 +43,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Client")]
         [HttpGet("GetUsersRequest")]
         public async Task<ActionResult<IEnumerable<Request>>> GetUsersRequest(int userId)
         {
@@ -64,6 +68,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("GetAllWaitingRequests")]
         public async Task<ActionResult<IEnumerable<Request>>> GetAllWaitingRequests()
         {
@@ -78,6 +83,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("SetDoctor")]
         public async Task<IActionResult> SetDoctor([FromBody]SetDoctorDTO setDoctorRequest)
         {
@@ -92,6 +98,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("GetFreeDoctors")]
         public async Task<ActionResult<IEnumerable<UserModel>>> GetFreeDoctors(int requestId)
         {
@@ -105,6 +112,8 @@ namespace backend.Controllers
                 return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}"); 
             }
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("CancelRequest")]
         public async Task<IActionResult> CancelRequest(int requestId)
         {

@@ -3,7 +3,19 @@ import axios from "axios";
 // функция для получения клиентов c направлениями
 export const getClientsWithReferrals = async () => {
     try {
-        const response = await axios.get(`http://localhost:5288/api/Test/GetUsersWithReferrals`);
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
+        const response = await axios.get(`http://localhost:5288/api/Test/GetUsersWithReferrals`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                },
+            }
+        );
         return response.data; 
     } catch (error) {
         console.error("Login error:", error);
@@ -14,6 +26,12 @@ export const getClientsWithReferrals = async () => {
 // функция для создания Clinical Blood Test
 export const createClinicalBloodTest = async (userId, redBloobCells, colorIndex, erythrocyteSedimentation, hemoglobin, platelets, leukocytes, basophils, eosinophils, monocytes, lymphocytes) => {
     try {
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
         const response = await axios.post("http://localhost:5288/api/Test/CreateClinicalBloodTest", {
             userId: userId,
             redBloobCells: redBloobCells,
@@ -26,7 +44,13 @@ export const createClinicalBloodTest = async (userId, redBloobCells, colorIndex,
             eosinophils: eosinophils,
             monocytes: monocytes,
             lymphocytes: lymphocytes
-        });
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`, 
+            },
+        }
+        );
         return response.data; 
     } catch (error) {
         console.error("Referral error:", error);
@@ -37,6 +61,12 @@ export const createClinicalBloodTest = async (userId, redBloobCells, colorIndex,
 // функция для создания Clinical Urine Test
 export const createClinicalUrineTest = async (userId, redBloobCells, urobilinogen, leukocytes, bilirubin, protien, acidity, density, nitrites, glucose, color) => {
     try {
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
         const response = await axios.post("http://localhost:5288/api/Test/CreateClinicalUrineTest", {
             userId: userId,
             redBloobCells: redBloobCells,
@@ -49,7 +79,13 @@ export const createClinicalUrineTest = async (userId, redBloobCells, urobilinoge
             nitrites: nitrites,
             glucose: glucose,
             color: color
-        });
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`, 
+            },
+        }
+        );
         return response.data; 
     } catch (error) {
         console.error("Referral error:", error);
@@ -60,10 +96,22 @@ export const createClinicalUrineTest = async (userId, redBloobCells, urobilinoge
 // функция для создания HIV Test
 export const createHIVTest = async (userId, result) => {
     try {
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
         const response = await axios.post("http://localhost:5288/api/Test/CreateHIVTest", {
             userId: userId,
             result: result,
-        });
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`, 
+            },
+        }
+        );
         return response.data; 
     } catch (error) {
         console.error("Referral error:", error);
@@ -74,10 +122,22 @@ export const createHIVTest = async (userId, result) => {
 // функция для создания Syphilis Test
 export const createBloodTestForSyphilis = async (userId, result) => {
     try {
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        } 
+
         const response = await axios.post("http://localhost:5288/api/Test/CreateSyphilisTest", {
             userId: userId,
             result: result,
-        });
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`, 
+            },
+        }
+        );
         return response.data; 
     } catch (error) {
         console.error("Referral error:", error);
@@ -88,13 +148,25 @@ export const createBloodTestForSyphilis = async (userId, result) => {
 // функция для создания Urine Test ForDrugs 
 export const createUrineTestForDrugs = async (userId, nicotinAndMetabolites, alcohol, psychoactiveSubstances, narcoticSubctances) => {
     try {
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
         const response = await axios.post("http://localhost:5288/api/Test/CreateDrugsTest", {
             userId: userId,
             nicotinAndMetabolites: nicotinAndMetabolites,
             alcohol: alcohol,
             psychoactiveSubstances: psychoactiveSubstances,
             narcoticSubctances: narcoticSubctances,
-        });
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`, 
+            },
+        }
+        );
         return response.data; 
     } catch (error) {
         console.error("Referral error:", error);

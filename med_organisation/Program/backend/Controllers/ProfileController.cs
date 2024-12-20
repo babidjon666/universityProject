@@ -3,6 +3,7 @@ using backend.models;
 using backend.models.Atributes;
 using backend.models.Attributes;
 using backend.models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -18,6 +19,7 @@ namespace backend.Controllers
             this.profileService = profileService;
         }
 
+        [Authorize(Roles = "Admin,Client")]
         [HttpGet("GetProfile")]
         public async Task<ActionResult<UserModel>> GetProfile(int userId)
         {
@@ -32,6 +34,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Client")]
         [HttpPost("EditPatient")]
         public async Task<IActionResult> EditPatient([FromBody]EditPatientDTO patientRequest)
         {
@@ -58,8 +61,9 @@ namespace backend.Controllers
                 return BadRequest($"Ошибка смены патента: {ex.Message}");
             }
         }
+        [Authorize(Roles = "Client")]
         [HttpPost("EditPassport")]
-        public async Task<IActionResult> EditPatient([FromBody]EditPassportDTO passportRequest)
+        public async Task<IActionResult> EditPassport([FromBody]EditPassportDTO passportRequest)
         {
             if (passportRequest == null){
                 return Conflict("Нету паспорта");

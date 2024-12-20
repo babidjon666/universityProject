@@ -10,30 +10,31 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace backend.Data
 {
-    public class JwtService
+    public class JWTSettings
     {
-        private readonly string _secretKey = "babidjon666"; 
+         private readonly IConfiguration _configuration;
+
+        public JWTSettings(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         public string GenerateJwtToken(UserModel user)
         {
-            var claims = new[]
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration["JwtSettings:SecretKey"]);
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Role, user.RoleName.ToString()) 
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, user.RoleName.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                issuer: "yourIssuer",
-                audience: "yourAudience",
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: creds
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
     }
 }

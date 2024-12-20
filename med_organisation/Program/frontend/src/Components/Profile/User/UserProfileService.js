@@ -4,7 +4,19 @@ import dayjs from 'dayjs';
 // функция для получения пользователя
 export const getProfile = async (userId) => {
     try {
-        const response = await axios.get(`http://localhost:5288/api/Profile/GetProfile?userId=${userId}`);
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
+        const response = await axios.get(`http://localhost:5288/api/Profile/GetProfile?userId=${userId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                },
+            }
+        );
         return response.data; 
     } catch (error) {
         console.error("Login error:", error);
@@ -15,6 +27,12 @@ export const getProfile = async (userId) => {
 // функция для редактирования патента
 export const editPatient = async (oldPatientId, documentNumber, serie, iNN, patentTerritory, issuedBy, nationality, dateOfIssue) => {
     try {
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
         const response = await axios.post("http://localhost:5288/api/Profile/EditPatient", {
             oldPatientId: oldPatientId,
             documentNumber: documentNumber,
@@ -24,6 +42,11 @@ export const editPatient = async (oldPatientId, documentNumber, serie, iNN, pate
             issuedBy: issuedBy,
             nationality: nationality,
             dateOfIssue: dateOfIssue,
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`, 
+            },
         });
         return response.data; 
     } catch (error) {
@@ -35,6 +58,12 @@ export const editPatient = async (oldPatientId, documentNumber, serie, iNN, pate
 // функция для редактирования пасспорта
 export const editPassport = async (oldPassportId, documentNumber, serie, sex, placeOfBirthday, codeOfState, nationality, issuingAuthority, placeOfResidence, dateOfBirth, dateOfIssue, dateOfExpiry) => {
     try {
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
         const response = await axios.post("http://localhost:5288/api/Profile/EditPassport", {
             oldPassportId: oldPassportId,
             documentNumber: documentNumber,
@@ -48,6 +77,11 @@ export const editPassport = async (oldPassportId, documentNumber, serie, sex, pl
             dateOfBirth: dateOfBirth,
             dateOfIssue: dateOfIssue,
             dateOfExpiry: dateOfExpiry,
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`, 
+            },
         });
         return response.data; 
     } catch (error) {
@@ -81,7 +115,19 @@ export const formatDate = (date) => {
 // функция для получения заявок
 export const getRequests = async (userId) => {
     try {
-        const response = await axios.get(`http://localhost:5288/api/Request/GetUsersRequest?userId=${userId}`);
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
+        const response = await axios.get(`http://localhost:5288/api/Request/GetUsersRequest?userId=${userId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                },
+            }
+        );
         return response; 
     } catch (error) {
         console.error("Login error:", error);
@@ -92,12 +138,23 @@ export const getRequests = async (userId) => {
 // функция для редактирования патента
 export const createRequest = async (userId, descriptionOfGoal, date, time) => {
     try {
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
         const response = await axios.post("http://localhost:5288/api/Request/CreateRequest", {
             userId: userId,
             descriptionOfGoal: descriptionOfGoal,
             date: date,
             time: time,
             requestStatus: 0
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`, 
+            },
         });
         return response.data; 
     } catch (error) {
@@ -110,7 +167,19 @@ export const createRequest = async (userId, descriptionOfGoal, date, time) => {
 
 export const getReferrals = async (userId) => {
     try {
-        const response = await axios.get(`http://localhost:5288/api/Test/GetReferralForTesting?userId=${userId}`);
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+        
+        const response = await axios.get(`http://localhost:5288/api/Test/GetReferralForTesting?userId=${userId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                },
+            }
+        );
         return response.data; 
     } catch (error) {
         console.error("Referral error:", error);
@@ -121,7 +190,19 @@ export const getReferrals = async (userId) => {
 // функция для получения настроек
 export const getSettings = async () => {
     try {
-        const response = await axios.get(`http://localhost:5288/api/Settings/GetAllSettings`);
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
+        const response = await axios.get(`http://localhost:5288/api/Settings/GetAllSettings`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                },
+            }
+        );
         return response.data; 
     } catch (error) {
         console.error("Login error:", error);
@@ -132,7 +213,19 @@ export const getSettings = async () => {
 // функция для получения анализов
 export const getTests = async (userId) => {
     try {
-        const response = await axios.get(`http://localhost:5288/api/Test/GetUsersTests?userId=${userId}`);
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
+        const response = await axios.get(`http://localhost:5288/api/Test/GetUsersTests?userId=${userId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                },
+            }
+        );
         return response.data; 
     } catch (error) {
         console.error("Login error:", error);
@@ -143,7 +236,19 @@ export const getTests = async (userId) => {
 // функция для получения справок
 export const getCertificates = async (userId) => {
     try {
-        const response = await axios.get(`http://localhost:5288/api/Certificate/GetUsersCertificate?userId=${userId}`);
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
+        const response = await axios.get(`http://localhost:5288/api/Certificate/GetUsersCertificate?userId=${userId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                },
+            }
+        );
         return response.data; 
     } catch (error) {
         console.error("Login error:", error);
@@ -154,21 +259,30 @@ export const getCertificates = async (userId) => {
 // Функция для скачивания справки
 export const downloadCertificate = async (certificateId) => {
     try {
+        const token = localStorage.getItem("userToken");
+
+        if (!token) {
+            throw new Error("Unauthorized: Token is missing");
+        }
+
         const response = await axios.get(
             `http://localhost:5288/api/Certificate/DownloadCertificate?certificateId=${certificateId}`,
             {
                 responseType: 'blob', 
-            }
-        );
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                },
+            },
+ 
+            );
 
-        // Создаем временную ссылку для скачивания
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
         link.href = url;
         link.setAttribute('download', `Certificate_${certificateId}.pdf`); 
         document.body.appendChild(link);
         link.click();
-        link.remove(); // Удаляем ссылку после скачивания
+        link.remove(); 
     } catch (error) {
         console.error("Error downloading certificate:", error);
         throw error;

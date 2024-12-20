@@ -32,22 +32,29 @@ export const Auth = () => {
 
         try {
             const result = await loginUser(login, password);
-            console.log("Login successful:", result);
-
-            const [id, role] = result.split(",");
-            if (role === "Doctor") {
-                navigate(`/doctorProfile/${id}`); 
-            } 
-            if (role === "Admin") {
-                navigate(`/adminProfile/${id}`); 
-            }
-            if (role === "Client") {
-                navigate(`/userProfile/${id}`); 
-            }
-            if (role === "LaboratoryAssistent"){
-                navigate(`/laborantProfile/${id}`); 
-            }
+            var userToken = result.token
+            var userRole  = result.role
+            var userId = result.userId
+            localStorage.setItem("userToken", userToken);
+            localStorage.setItem("userRole", userRole);
+            localStorage.setItem("userId", userId);
             message.success("Успешный вход!");
+            console.log(result);
+            console.log(userToken);
+            console.log(userRole);
+            console.log(userId);
+            if (userRole === 2) {
+                navigate(`/doctorProfile/${userId}`); 
+            } 
+            if (userRole === 0) {
+                navigate(`/adminProfile/${userId}`); 
+            }
+            if (userRole === 1) {
+                navigate(`/userProfile/${userId}`); 
+            }
+            if (userRole === 3){
+                navigate(`/laborantProfile/${userId}`); 
+            }
         } catch (error) {
             message.warning("Неправильный логин или пароль!");
         }

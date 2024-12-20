@@ -1,3 +1,4 @@
+using backend.Data;
 using backend.interfaces;
 using backend.models;
 using backend.models.Atributes;
@@ -12,10 +13,12 @@ namespace backend.Controllers
     public class AuthController: ControllerBase
     {
         private readonly IAuthService authService;
+        private readonly JWTSettings jwtService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, JWTSettings jwtService)
         {
             this.authService = authService;
+            this.jwtService = jwtService;
         }
 
         [HttpPost("Register")]
@@ -50,7 +53,9 @@ namespace backend.Controllers
             try
             {
                 var user = await authService.LoginService(loginRequest.Login, loginRequest.Password);
-                return Ok($"{user.Id},{user.RoleName}");
+
+                var token = jwtService.GenerateJwtToken(user);
+                return Ok(new { Token = token, UserId = user.Id, Role = user.RoleName });
             }
             catch (Exception ex)
             {
